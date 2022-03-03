@@ -23,8 +23,8 @@ date_default_timezone_set('Asia/Kolkata');
 | a PHP script and you can easily do that on your own.
 |
 */
- $config['base_url'] = 'https://wahylab.com/gen/';
-//$config['base_url'] = 'http://localhost/gentleman/';
+ // $config['base_url'] = 'https://wahylab.com/gen/';
+$config['base_url'] = 'http://localhost/gentleman/';
 
 /*
 |--------------------------------------------------------------------------

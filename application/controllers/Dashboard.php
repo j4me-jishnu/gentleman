@@ -24,11 +24,11 @@ class Dashboard extends MY_Controller
         $template['total_users'] = $this->Dashboard_model->gettotal_users();
         $template['return_request'] = $this->Dashboard_model->gettotal_return();
         // $template['brtobr'] = $this->Dashboard_model->gettotal_brtobr();
-        $template['branch_stock'] = $this->Dashboard_model->getBranchstock();
-        $template['pending_purchase'] = $this->Dashboard_model->get_purchasepending();
+        // $template['branch_stock'] = $this->Dashboard_model->getBranchstock();
+        // $template['pending_purchase'] = $this->Dashboard_model->get_purchasepending();
 
 
-        $template['pending_purchase_dashboard'] = $this->Dashboard_model->get_purchasepending_dashboard();
+        // $template['pending_purchase_dashboard'] = $this->Dashboard_model->get_purchasepending_dashboard();
         //	$template['stock_benchmark'] = $this->Dashboard_model->get_stock_benchmark();
         // $template['productrequest'] = $this->Dashboard_model->gettotal_requests();
         //$template['total_stock'] = $this->Dashboard_model->gettotal_stock();
@@ -197,7 +197,7 @@ class Dashboard extends MY_Controller
     // public function get(){
     // $this->load->model('Dashboard_model');
     // $param['draw'] = (isset($_REQUEST['draw']))?$_REQUEST['draw']:'';
-    // $param['length'] =(isset($_REQUEST['length']))?$_REQUEST['length']:'10'; 
+    // $param['length'] =(isset($_REQUEST['length']))?$_REQUEST['length']:'10';
     // $param['start'] = (isset($_REQUEST['start']))?$_REQUEST['start']:'0';
     // $param['order'] = (isset($_REQUEST['order'][0]['column']))?$_REQUEST['order'][0]['column']:'';
     // $param['dir'] = (isset($_REQUEST['order'][0]['dir']))?$_REQUEST['order'][0]['dir']:'';
