@@ -313,8 +313,7 @@ class Masterstock_model extends CI_Model
 
 	}
 
-	public function getMasterStocklist()
-	{
+	public function getMasterStocklist(){
 		$this->db->select('*,COALESCE(os_quantity,0) AS opening_stck_qty');
 		$this->db->join('ntbl_master_os','ntbl_master_os.os_item_id_fk=ntbl_items.item_id','left');
 		$this->db->join('ntbl_category','ntbl_category.cate_id=ntbl_items.cate_id_fk','left');
@@ -546,14 +545,14 @@ class Masterstock_model extends CI_Model
     	$data['recordsFiltered']=$query->num_rows();
     	return $data['data'] ? $data : false;
 	}
-	
-	
+
+
 
 	public function getBranchTable2($param){
 		$arOrder = array('','branch_name');
 		$searchValue =($param['searchValue'])?$param['searchValue']:'';
         if($searchValue){
-            $this->db->like('branch_name', $searchValue); 
+            $this->db->like('branch_name', $searchValue);
         }
         $this->db->where("branch_status",1);
 		if ($param['start'] != 'false' and $param['length'] != 'false') {
@@ -574,7 +573,7 @@ class Masterstock_model extends CI_Model
 
 		$searchValue =($param['searchValue'])?$param['searchValue']:'';
         if($searchValue){
-            $this->db->like('branch_name', $searchValue); 
+            $this->db->like('branch_name', $searchValue);
         }
 		$this->db->select('*');
 		$this->db->from('ntbl_branches');
@@ -583,7 +582,7 @@ class Masterstock_model extends CI_Model
         $query = $this->db->get();
     	return $query->num_rows();
     }
-	
+
 	public function getEditBranchList($branch_id)
 	{
 		$this->db->select('*');

@@ -30,7 +30,7 @@
               <table id="designation_table" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-				  <th>Slno</th>
+				          <th>Slno</th>
                   <th>Item Name</th>
                   <th>Category Name</th>
                   <th>Opening Stock</th>
@@ -45,7 +45,7 @@
           </div>
           <!-- /.box -->
 
-         
+
      </div>
 
     </section>
@@ -91,6 +91,3 @@
       </div>
     </div>
   </div>
-
-
-

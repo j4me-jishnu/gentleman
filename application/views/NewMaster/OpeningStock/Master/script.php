@@ -72,18 +72,15 @@ $(function () {
       $table.column(0).nodes().each(function(node,index,dt){
         $table.cell(node).data(index+1);
       });
-      if(data['opening_stck_qty']==0){
-        $('td', row).eq(4).html('<center><?php $u = $this->session->userdata('user_type'); if($u != 'S'){ ?><a style="color:white;" href="<?php echo base_url();?>NewMaster/updateMasterStockDetails/'+data['item_id']+'"><button class="btn btn-success">Update</bytton></a><?php } ?></center>');
-        //$('td', row).eq(4).html('<center><?php $u = $this->session->userdata('user_type'); if($u != 'S'){ ?><a style="color:white;" href="<?php echo base_url();?>NewMaster/updateMasterStockDetails/'+data['item_id']+'"><button class="btn btn-success">Update</bytton></a><button onclick="confirmDelete('+data['item_id']+')" class="btn btn-danger">DELETE</button><?php } ?></center>');
-      }
+      $('td', row).eq(4).html('<center><button class="btn btn-primary">Update</button></center>');
     },
 
     "columns": [
       { "data": "item_status", "orderable": true },
       { "data": "item_name", "orderable": false },
-      { "data": "cate_name", "orderable": false },
-      { "data": "opening_stck_qty", "orderable": false },
-      { "data": null, "defaultContent":""},
+      { "data": "cat_name", "orderable": false },
+      { "data": "os_qty", "orderable": false },
+      { "data": "item_status", "defaultContent":""},
     ]
   } );
 });

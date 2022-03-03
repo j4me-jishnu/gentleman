@@ -236,7 +236,7 @@ class NewMaster extends MY_Controller {
 				$purchase_tax=$this->params['pur_tax'];
 				$purchase_total=$this->params['pur_total'];
 				$purchase_date=date('Y-m-d h:i:sa',strtotime($this->params['pur_date']));
-				
+
 				for($i=0;$i<count($purchase_qty);$i++)
 				{
 					$item = array(
@@ -280,7 +280,7 @@ class NewMaster extends MY_Controller {
 							);
 					$result = $this->General_model->update('ntbl_purchase',$item,'purcahse_id',$purchae_id);
 				}
-				
+
 			}
 
 			if($result)
@@ -437,8 +437,7 @@ class NewMaster extends MY_Controller {
 
 	/////////////Opening Stock Master//////////////////
 
-	public function showMasterOpeningStock()
-	{
+	public function showMasterOpeningStock(){
 		$cond = [
 			'cate_status' => 1,
 		];
@@ -474,9 +473,9 @@ class NewMaster extends MY_Controller {
 
 	}
 
-	public function getMasterStock()
-	{
-		$this->result = $this->Masterstock_model->getMasterStocklist();
+	public function getMasterStock(){
+		// $this->result = $this->Masterstock_model->getMasterStocklist();
+		$this->result = $this->NewCommonModel->get_opening_stock_details($this->branch_id);
 	}
 
 	public function updateMasterStockDetails($os_id)
@@ -487,8 +486,7 @@ class NewMaster extends MY_Controller {
 		$this->load->view('template',$template);
 	}
 
-	public function updatMasterStock()
-	{
+	public function updatMasterStock(){
 			$data = array(
 				'os_item_id_fk'=>$this->params['ms_item_id'],
 				'os_quantity'=>$this->params['stck_qty'],
@@ -606,7 +604,7 @@ public function approveBReturns()
 			redirect('NewMaster/showBranchReturn');
 		}
 	}
-	
+
 
 }
 
@@ -992,8 +990,7 @@ public function addLoginUsersDetails()
 
 }
 
-public function deleteLoginUserDetails()
-{
+public function deleteLoginUserDetails(){
 	$id = $this->params['id'];
 	$this->result = $this->General_model->delete('tbl_login','id',$id);
 }
@@ -1097,6 +1094,14 @@ public function deleteBranchList()
 		'branch_status' => 0
 	];
 	$this->result = $this->General_model->update('ntbl_branches',$cond,'branch_id',$branch_id);
+}
+
+######################################################################################################################
+
+// adding a branch opening stock [both master and branch considered as a branch]
+public function addOpeningStock(){
+	$branch_id = $this->params['branch_id'];
+
 }
 
 	public function __destruct(){

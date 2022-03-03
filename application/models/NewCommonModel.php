@@ -90,8 +90,7 @@ class NewCommonModel extends CI_Model
 		return $data = $query->result();
 	}
 
-	public function getBrachStockSQL($branch_id)
-	{
+	public function getBrachStockSQL($branch_id){
 		$this->db->select('item_id,item_name,COALESCE(os_branch_id_fk,'.$branch_id.') AS os_branch_id_fk,COALESCE(os_quantity,0) AS os_quantity,req_branch_id_fk,COALESCE(req_item_quantity,0) AS req_item_quantity,btob_to_branch_id_fk,COALESCE(b2b_rec_qty,0) AS b2b_rec_qty');
 		$this->db->join('(SELECT os_item_id_fk,os_branch_id_fk,os_quantity FROM ntbl_bs_openingstock WHERE os_status = 1 ORDER BY os_item_id_fk) brnch_op_stck','brnch_op_stck.os_item_id_fk=ntbl_items.item_id','left');
 		$this->db->join('(SELECT req_item_id_fk,req_branch_id_fk,SUM(req_item_quantity) AS req_item_quantity FROM ntbl_bs_stockrequests WHERE req_status = 1 ORDER BY req_item_id_fk) recieved_4rom_master','recieved_4rom_master.req_item_id_fk=ntbl_items.item_id','left');
@@ -101,6 +100,15 @@ class NewCommonModel extends CI_Model
 		// $this->db->where('brnch_op_stck.os_branch_id_fk',$branch_id);
 		$query = $this->db->get();
 		return $data['data'] = $query->result();
+	}
+
+// returns all items opening stock details based on branch_id and items_id
+	public function get_opening_stock_details($branch_id){
+		$query=$this->db->select('ntbl_items.*,COALESCE(ntbl_openingstock.os_stock_qty,0) as os_qty,ntbl_category.cate_name as cat_name')
+		->join('ntbl_openingstock','ntbl_openingstock.os_item_id=ntbl_items.item_id and ntbl_openingstock.os_branch_id='.$branch_id.'','left')
+		->join('ntbl_category','ntbl_category.cate_id=ntbl_items.item_cat_fk','left')
+		->get('ntbl_items');
+		return $query->result();
 	}
 
 }
