@@ -167,15 +167,7 @@
         <!-- small box -->
         <div class="small-box bg-yellow">
           <div class="inner">
-            <h3><?php foreach ($total_stock as $tstock) {
-              if ($tstock->Total_qty == 0) {
-                echo '0';
-              } else {
-                echo $tstock->Total_qty;
-              }
-            }
-            ?></h3>
-
+            <h3><?php echo $total_stock; ?></h3>
             <p>Stock</p>
           </div>
           <div class="icon">

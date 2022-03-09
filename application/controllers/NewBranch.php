@@ -20,12 +20,12 @@ class NewBranch extends MY_Controller {
 			$this->params=$_POST;
 		}
 		if(isset($_REQUEST)){
-		  $this->param['draw'] = (isset($_REQUEST['draw']))?$_REQUEST['draw']:'';
-		  $this->param['length'] =(isset($_REQUEST['length']))?$_REQUEST['length']:'10';
-		  $this->param['start'] = (isset($_REQUEST['start']))?$_REQUEST['start']:'0';
-		  $this->param['order'] = (isset($_REQUEST['order'][0]['column']))?$_REQUEST['order'][0]['column']:'';
-		  $this->param['dir'] = (isset($_REQUEST['order'][0]['dir']))?$_REQUEST['order'][0]['dir']:'';
-		  $this->param['searchValue'] =(isset($_REQUEST['search']['value']))?$_REQUEST['search']['value']:'';
+			$this->param['draw'] = (isset($_REQUEST['draw']))?$_REQUEST['draw']:'';
+			$this->param['length'] =(isset($_REQUEST['length']))?$_REQUEST['length']:'10';
+			$this->param['start'] = (isset($_REQUEST['start']))?$_REQUEST['start']:'0';
+			$this->param['order'] = (isset($_REQUEST['order'][0]['column']))?$_REQUEST['order'][0]['column']:'';
+			$this->param['dir'] = (isset($_REQUEST['order'][0]['dir']))?$_REQUEST['order'][0]['dir']:'';
+			$this->param['searchValue'] =(isset($_REQUEST['search']['value']))?$_REQUEST['search']['value']:'';
 		}
 		date_default_timezone_set("Asia/Kolkata");
 		if(!empty($this->session->userdata('user_branch'))){
@@ -33,9 +33,9 @@ class NewBranch extends MY_Controller {
 			$this->branch_id=$this->NewCommonModel->getBranchID($this->branch_name);
 		}
 	}
-////////////Stock Details///////////////////////////////	
-// Stock Details page
-  	public function showStockDetails(){
+	////////////Stock Details///////////////////////////////
+	// Stock Details page
+	public function showStockDetails(){
 		$template['body'] = 'NewBranch/Stock_details/list';
 		$template['script'] = 'NewBranch/Stock_details/script';
 		$this->load->view('template', $template);
@@ -79,10 +79,10 @@ class NewBranch extends MY_Controller {
 		echo json_encode($response);
 	}
 
-//////////////////////////////////////////////////////	
+	//////////////////////////////////////////////////////
 
-///////////Issued Item Page////////////////////////////
-// Issued item page
+	///////////Issued Item Page////////////////////////////
+	// Issued item page
 	public function showIssuedItemsPage(){
 		$template['body'] = 'NewBranch/Issued_items/list';
 		$template['script'] = 'NewBranch/Issued_items/script';
@@ -110,7 +110,7 @@ class NewBranch extends MY_Controller {
 			'created_at' => date('Y-m-d H:i:sa'),
 			'updated_at' => date('Y-m-d H:i:sa'),
 		];
-		
+
 		$response = $this->General_model->add('ntbl_bs_issuedstock',$insert_array);
 		if($response)
 		{
@@ -128,10 +128,10 @@ class NewBranch extends MY_Controller {
 		$response = $this->General_model->delete('ntbl_bs_issuedstock','issued_id',$issued_id);
 		echo json_encode($response);
 	}
-	
-///////////////////////////////////////////////////////
 
-// Branch to branch page
+	///////////////////////////////////////////////////////
+
+	// Branch to branch page
 	public function showBranchtoBranchPage(){
 		$template['body'] = 'NewBranch/BranchtoBranch/list';
 		$template['script'] = 'NewBranch/BranchtoBranch/script';
@@ -139,24 +139,36 @@ class NewBranch extends MY_Controller {
 	}
 
 	public function addBtoBRequest(){
-		$insert_data=[
-			'btob_branch_id_fk'=>$this->branch_id,
-			'btob_to_branch_id_fk'=>$this->params['transfer_branch_id'],
-			'btob_item_id_fk'=>$this->params['item'],
-			'btob_quantity'=>$this->params['item_quantity'],
-			'created_at'=>date('Y-m-d H:i:s'),
-		];
-		
-		if(!empty($this->params['btob_ide'])){
-			$response = $this->General_model->update('ntbl_bs_branchtobranch',$insert_data,'btob_id',$this->params['btob_ide']);
+		// get the current stock balance of the item in requesting branch
+		$item_id=$this->params['item'];
+		$master_branch=$this->NewCommonModel->get_master_id();
+		$current_stock=intval($this->NewCommonModel->get_single_item_current_stock($this->branch_id,$item_id));
+		if($current_stock>intval($this->params['item_quantity'])){
+			$insert_data=[
+				'btob_branch_id_fk'=>$this->branch_id,
+				'btob_to_branch_id_fk'=>$this->params['transfer_branch_id'],
+				'btob_item_id_fk'=>$item_id,
+				'btob_quantity'=>$this->params['item_quantity'],
+				'created_at'=>date('Y-m-d H:i:s'),
+			];
+
+			if(!empty($this->params['btob_ide'])){
+				$response = $this->General_model->update('ntbl_bs_branchtobranch',$insert_data,'btob_id',$this->params['btob_ide']);
+			}
+			else
+			{
+				$response=$this->NewCommonModel->add_data('ntbl_bs_branchtobranch',$insert_data);
+			}
+
+			if($response){
+				redirect('/NewBranch/showBranchtoBranchPage');
+			}
 		}
-		else
-		{
-			$response=$this->NewCommonModel->add_data('ntbl_bs_branchtobranch',$insert_data);
-		}
-		
-		if($response){
-			redirect('/NewBranch/showBranchtoBranchPage');
+		else{
+			$message="Only ".$current_stock." numbers of stock are available!";
+			$this->session->set_flashdata('message',$message);
+			$this->session->set_flashdata('type',"warning");
+			redirect('NewBranch/showBranchtoBranchPage', 'refresh');
 		}
 	}
 
@@ -173,9 +185,9 @@ class NewBranch extends MY_Controller {
 		];
 		$this->result=$this->NewBranchModel->getBranchtoBranchStockRequests($this->param,$condition);
 	}
-//////////////////////////////////////////////////////////////////////////////
-// Return to master page
-  public function showReturntoMasterPage(){
+	//////////////////////////////////////////////////////////////////////////////
+	// Return to master page
+	public function showReturntoMasterPage(){
 		$template['body'] = 'NewBranch/ReturntoMaster/list';
 		$template['script'] = 'NewBranch/ReturntoMaster/script';
 		$this->load->view('template', $template);
@@ -191,17 +203,27 @@ class NewBranch extends MY_Controller {
 		{
 			$remarks = " ";
 		}
-		$insert_data=[
-			'return_branch_id_fk'=>$this->branch_id,
-			'return_item_id_fk'=>$this->params['item'],
-			'return_quantity'=>$this->params['item_quantity'],
-			'return_remarks'=>$remarks,
-			'created_at'=>date('Y-m-d H:i:s'),
-		];
-		$insert_scrap=[];
-		$response=$this->NewCommonModel->add_data('ntbl_bs_returntomaster',$insert_data);
-		if($response){
-			redirect('/NewBranch/showReturntoMasterPage');
+		$item_id=$this->params['item'];
+		$current_stock=intval($this->NewCommonModel->get_single_item_current_stock($this->branch_id,$item_id));
+		if($current_stock>intval($this->params['item_quantity'])){
+			$insert_data=[
+				'return_branch_id_fk'=>$this->branch_id,
+				'return_item_id_fk'=>$item_id,
+				'return_quantity'=>$this->params['item_quantity'],
+				'return_remarks'=>$remarks,
+				'created_at'=>date('Y-m-d H:i:s'),
+			];
+			$insert_scrap=[];
+			$response=$this->NewCommonModel->add_data('ntbl_bs_returntomaster',$insert_data);
+			if($response){
+				redirect('/NewBranch/showReturntoMasterPage');
+			}
+		}
+		else{
+			$message="Only ".$current_stock." numbers of stock are available!";
+			$this->session->set_flashdata('message',$message);
+			$this->session->set_flashdata('type',"warning");
+			redirect('NewBranch/showReturntoMasterPage', 'refresh');
 		}
 	}
 
@@ -213,8 +235,8 @@ class NewBranch extends MY_Controller {
 	}
 
 	// #######################################################################################################
-// Stock Request
-  public function showStockRequestsPage(){
+	// Stock Request
+	public function showStockRequestsPage(){
 		$template['body'] = 'NewBranch/StockRequests/list';
 		$template['script'] = 'NewBranch/StockRequests/script';
 		$this->load->view('template', $template);
@@ -227,22 +249,22 @@ class NewBranch extends MY_Controller {
 				'req_item_quantity'=>$this->params['item_quantity'],
 			];
 			$response = $this->General_model->update('ntbl_bs_stockrequests',$update_data,'req_id',$this->params['req_id']);
-		}else{
-		$insert_data=[
-			'req_item_id_fk'=>$this->params['item'],
-			'req_branch_id_fk'=>$this->branch_id,
-			'req_item_quantity'=>$this->params['item_quantity'],
-			'created_at'=>date('Y-m-d H:i:s'),
-		];
-		$response=$this->NewCommonModel->add_data('ntbl_bs_stockrequests',$insert_data);
-	}
+		}
+		else{
+			$insert_data=[
+				'req_item_id_fk'=>$this->params['item'],
+				'req_branch_id_fk'=>$this->branch_id,
+				'req_item_quantity'=>$this->params['item_quantity'],
+				'created_at'=>date('Y-m-d H:i:s'),
+			];
+			$response=$this->NewCommonModel->add_data('ntbl_bs_stockrequests',$insert_data);
+		}
 		if($response){
-			redirect('/newMaster/showBranchItemRequestsPage');
+			redirect('/NewMaster/showBranchItemRequestsPage');
 		}
 	}
 
-	public function editToStockRequest()
-	{
+	public function editToStockRequest(){
 		$req_id = $this->input->post('req_id');
 		$data = $this->NewBranchModel->getEditStockRequest($req_id);
 		//$data = $this->NewBranchModel->getToStockRquestListEdit();
@@ -256,23 +278,16 @@ class NewBranch extends MY_Controller {
 		echo json_encode($data);
 	}
 
-	public function getBranchStockRequests(){
-		$condition=[
-			'req_branch_id_fk'=>$this->branch_id
-		];
-		$this->result=$this->NewBranchModel->getBranchStockRequests($this->param,$condition);
-	}
-
 	public function getMasterStockRequests(){
 		$this->result=$this->NewBranchModel->getMasterStockRequests($this->param);
 	}
 
 
 
-#########################################################################################################
+	#########################################################################################################
 
-// Employees listing page
-  public function showEmployeesPage(){
+	// Employees listing page
+	public function showEmployeesPage(){
 		$template['body'] = 'NewBranch/Employees/list';
 		$template['script'] = 'NewBranch/Employees/script';
 		$this->load->view('template', $template);
@@ -294,7 +309,7 @@ class NewBranch extends MY_Controller {
 			$this->session->set_flashdata('response', '{&quot;text&quot;:&quot;Something went wrong,please try again later&quot;,&quot;layout&quot;:&quot;bottomRight&quot;,&quot;type&quot;:&quot;error&quot;}');
 		}
 		redirect('/NewBranch/showEmployeesPage', 'refresh');
-}
+	}
 
 	public function editEmployee()
 	{
@@ -339,6 +354,11 @@ class NewBranch extends MY_Controller {
 	public function getBranchesNativeList()
 	{
 		$this->result = $this->NewCommonModel->getBrachStockSQL($this->branch_id);
+	}
+// ##########################################
+	public function getBranchStockRequests(){
+		$branch_id=$this->branch_id;
+		$this->result=$this->NewBranchModel->get_single_branch_stock_request($this->param,$branch_id);
 	}
 
 	public function __destruct(){

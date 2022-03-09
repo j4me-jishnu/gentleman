@@ -9,6 +9,9 @@
 			<li class="active">Stock Request Details</li>
 		</ol>
 	</section>
+	<?php if($this->session->flashdata('message')!=NULL){
+	  echo '<script>swal("'.$this->session->flashdata('message').'", "", "'.$this->session->flashdata('type').'");</script>';
+	} ?>
 	<section class="content">
 		<div class="row">
 			<div class="box">
@@ -68,7 +71,6 @@
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
-
   </div>
 </div>
 <!-- End rejectModal -->
@@ -78,7 +80,6 @@
 <!-- Modal -->
 <div id="accept_modal" class="modal fade" role="dialog">
   <div class="modal-dialog">
-
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
@@ -96,7 +97,7 @@
 			<div class="form-group">
 					<input type="submit" name="submit" class="btn btn-success" value="APPROVE">
 			</div>
-			
+
         </form>
       </div>
       <div class="modal-footer">

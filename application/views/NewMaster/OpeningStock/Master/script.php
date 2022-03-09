@@ -80,7 +80,6 @@ $(function () {
       { "data": "item_name", "orderable": false },
       { "data": "cat_name", "orderable": false },
       { "data": "os_qty", "orderable": false },
-      { "data": "item_status", "defaultContent":""},
     ]
   } );
 });

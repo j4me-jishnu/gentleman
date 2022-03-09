@@ -8,7 +8,7 @@
     <strong>Copyright &copy; 2018 <a href="#">Wahylab Solutions</a>.</strong> All rights reserved.
   </footer>
 
- 
+
   <!-- /.control-sidebar -->
   <!-- Add the sidebar's background. This div must be placed
        immediately after the control sidebar -->

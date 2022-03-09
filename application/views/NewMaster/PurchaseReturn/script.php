@@ -82,7 +82,7 @@ $(function () {
       $table.column(0).nodes().each(function(node,index,dt){
         $table.cell(node).data(index+1);
       });
-      $('td', row).eq(9).html('<center><?php $u = $this->session->userdata('user_type'); if($u != 'S'){ ?><a title="Return Stock" href="<?php echo base_url() ?>NewMaster/addPurchaseReturn/'+data['purcahse_id']+'"><i class="fa fa-undo" aria-hidden="true"></i></a><?php } ?></center>');
+      $('td', row).eq(9).html('<center><?php $u = $this->session->userdata('user_type'); if($u != 'S'){ ?><a title="Return Stock" href="<?php echo base_url() ?>NewMaster/addPurchaseReturn/'+data['purchase_id']+'"><i class="fa fa-undo" aria-hidden="true"></i></a><?php } ?></center>');
     },
 
 
@@ -104,12 +104,12 @@ $(function () {
 
 });
 
-function confirmDelete(purcahse_id){
+function confirmDelete(purchase_id){
   var conf = confirm("Do you want to Delete Purchase Details ?");
   if(conf){
     $.ajax({
       url:"<?php echo base_url();?>NewMaster/deletePurchaseDetails",
-      data:{purcahse_id:purcahse_id},
+      data:{purchase_id:purchase_id},
       method:"POST",
       datatype:"json",
       success:function(data){

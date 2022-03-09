@@ -28,7 +28,7 @@
           <form class="form-horizontal" method="POST" action="<?php echo base_url();?>NewMaster/updatePurchaseReturns">
             <!-- radio -->
             <div class="form-group">
-              <input type="hidden" name="purcahse_id" value="<?php if(isset($records[0]->purcahse_id)) echo $records[0]->purcahse_id ?>"/>
+              <input type="hidden" name="purchase_id" value="<?php if(isset($records[0]->purchase_id)) echo $records[0]->purchase_id ?>"/>
               <input type="hidden" name="item_id_fk" value="<?php if(isset($records[0]->purchase_item_id_fk)) echo $records[0]->purchase_item_id_fk ?>"/>
               <input type="hidden" name="pur_amt" value="<?php if(isset($records[0]->purchase_price)) echo $records[0]->purchase_price ?>"/>
               <?php echo validation_errors(); ?>

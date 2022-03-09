@@ -3,6 +3,9 @@
 		<h1>
 			Stock Return to Master Details
 		</h1>
+		<?php if($this->session->flashdata('message')!=NULL){
+		  echo '<script>swal("'.$this->session->flashdata('message').'", "", "'.$this->session->flashdata('type').'");</script>';
+		} ?>
 		<ol class="breadcrumb">
 			<li><a href="<?php echo base_url();?>Dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
 			<li><a href="<?php echo base_url();?>Employee/add"><i class="fa fa-dashboard"></i> Back to Add</a></li>
@@ -80,4 +83,3 @@
 	</div>
 </div>
 </div>
-

@@ -47,7 +47,6 @@ $(document).ready(function(){
       'dataSrc':"",
       "type": "POST",
       "data" : function (d) {
-        //console.log(d);
       }
     },
     "createdRow": function ( row, data, index ) {
@@ -55,7 +54,7 @@ $(document).ready(function(){
         $table.cell(node).data(index+1);
       });
      if(data['is_approved'] == 0){
-    //$('td', row).eq(6).html('<center><a onclick="ajaxApprove('+data['return_id']+')"><button type="button" class="btn btn-success">Approve</button></a><button type="button" onclick="openRejectModal('+data['return_id']+')" class="btn btn-danger">Reject</button></center>');
+
     $('td', row).eq(6).html('<center><button type="button" class="btn btn-success" onclick="showModal('+data['return_id']+')">Approve</button><button type="button" onclick="openRejectModal('+data['return_id']+')" class="btn btn-danger">Reject</button></center>');
      }
      else{
@@ -122,11 +121,10 @@ function ajaxApprove(return_id)
 function openRejectModal(req_id) {
   $('#hidden_req_id').val(req_id);
   $('#rejectModel').modal('show');
- 
+
 }
 
-function showModal(return_id)
-{
+function showModal(return_id){
   $('#accept_req_id').val(return_id);
   $('#accept_modal').modal('show');
 }

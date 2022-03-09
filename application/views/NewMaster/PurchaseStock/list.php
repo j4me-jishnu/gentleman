@@ -23,11 +23,10 @@
       </ol>
 
     </section>
-
-
-
+    <?php if($this->session->flashdata('message')!=NULL){
+  	  echo '<script>swal("'.$this->session->flashdata('message').'", "", "'.$this->session->flashdata('type').'");</script>';
+  	} ?>
      <!-- Main content -->
-
     <section class="content">
 
       <div class="row">
@@ -72,24 +71,8 @@
             <!-- /.box-body -->
           </div>
           <!-- /.box -->
-
      </div>
-
     </section>
     <!-- /.content -->
   </div>
-
   <!-- /.content-wrapper -->
-
-
-
-
-
-
-
-
-
-
-
-
-

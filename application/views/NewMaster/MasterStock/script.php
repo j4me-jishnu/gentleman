@@ -140,7 +140,7 @@ $(function () {
 
       });
 
-      $('td', row).eq(9).html('<center><?php $u = $this->session->userdata('user_type'); if($u != 'S'){ ?><a href="<?php echo base_url();?>designation/edit/'+data['purcahse_id']+'"><i class="fa fa-edit iconFontSize-medium" ></i></a> &nbsp;&nbsp;&nbsp;<a onclick="return confirmDelete('+data['purcahse_id']+')"><i class="fa fa-trash-o iconFontSize-medium" ></i></a><?php } ?></center>');
+      $('td', row).eq(9).html('<center><?php $u = $this->session->userdata('user_type'); if($u != 'S'){ ?><a href="<?php echo base_url();?>designation/edit/'+data['purchase_id']+'"><i class="fa fa-edit iconFontSize-medium" ></i></a> &nbsp;&nbsp;&nbsp;<a onclick="return confirmDelete('+data['purchase_id']+')"><i class="fa fa-trash-o iconFontSize-medium" ></i></a><?php } ?></center>');
 
     },
 
@@ -171,7 +171,7 @@ $(function () {
 
 });
 
-function confirmDelete(purcahse_id){
+function confirmDelete(purchase_id){
 
   var conf = confirm("Do you want to Delete Purchase Details ?");
 
@@ -181,7 +181,7 @@ function confirmDelete(purcahse_id){
 
       url:"<?php echo base_url();?>NewMaster/deletePurchaseDetails",
 
-      data:{purcahse_id:purcahse_id},
+      data:{purchase_id:purchase_id},
 
       method:"POST",
 

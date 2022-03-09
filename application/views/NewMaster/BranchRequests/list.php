@@ -1,5 +1,10 @@
 <div class="content-wrapper">
+<?php
+if($this->session->flashdata('message')!=NULL){
+	echo '<script>swal("'.$this->session->flashdata('message').'", "", "'.$this->session->flashdata('type').'");</script>';
+}
 
+?>
 	<section class="content-header">
 
 		<h1>
@@ -62,7 +67,7 @@
 
 								<th>Action</th>
 
-								
+
 
 							</tr>
 
@@ -86,71 +91,46 @@
 
 <!-- add stock request modal -->
 
-<div class="modal fade" id="requestItemModal" tabindex="-1">
-
+<div class="modal fade" id="requestApprovalModal" tabindex="-1">
+	<form class="form-control" action="<?php echo base_url() ?>NewMaster/approveStockRequest" method="post">
 	<div class="modal-dialog">
-
 		<div class="modal-content">
-
 			<div class="modal-header">
-
 				<h5 class="modal-title">Request stock from master</h5>
-
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-
 				<span aria-hidden="true">&times;</span>
-
 			</button>
-
 			</div>
-
 			<div class="modal-body">
-
-				<form class="" action="<?php echo base_url(); ?>NewBranch/addToStockRequest" method="post">
-
-					<div class="row mb-3">
-
-						<div class="col-sm-8">
-
-							<select class="form-control" name="item" id="selectItem">
-
-								<option value="" readonly>Select Item</option>
-
-							</select>
-
-						</div>
-
-				</div><br>
-
 				<div class="row mb-3">
-
 					<div class="col-sm-8">
-
-						<input type="number" placeholder="Item quantity" name="item_quantity" class="form-control" required>
-
+						<input type="hidden" name="requested_branch" id="requested_branch" value="">
+						<input type="hidden" name="request_id" id="request_id" value="">
+						<input type="hidden" name="request_item_id" id="request_item_id" value="">
 					</div>
-
 				</div><br>
-
+				<div class="row mb-3">
+					<div class="col-sm-8">
+						<h5><b>Available Stock : </b></h5>
+						<h5 id="currentStock"></h5>
+						<input type="hidden" name="current_stock" id="avbl_stock" value="">
+					</div>
+				</div><br>
+				<div class="row mb-3">
+					<div class="col-sm-8">
+						<h5><b>Requested Stock : </b></h5>
+						<input type="text" id="requested_stock" name="requested_stock" value="">
+					</div>
+				</div><br>
 				<div class="modal-footer">
-
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
-					<button type="submit" class="btn btn-primary">Submit</button>
-
+					<button type="submit" class="btn btn-primary">Approve</button>
 				</div>
-
 			</form>
-
 		</div>
-
 	</div>
-
 </div>
-
 </div>
-
-
 
 <!-- rejectModal -->
 
@@ -267,4 +247,3 @@
 
 </div>
 <!-- End Ajax Approval -->
-

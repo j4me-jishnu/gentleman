@@ -277,7 +277,7 @@ class Masterstock_model extends CI_Model
 
 	public function getROPmasterTable()
 	{
-		$this->db->select('*,COALESCE(rop_master_ROP,0) AS rop_master_rops,COALESCE(rop_master_date,DATE "0000-00-00") AS rop_master_date');
+		$this->db->select('*,COALESCE(rop_master_ROP,0) AS rop_master_rops,ntbl_rop_master.updated_at as updated_date,ntbl_rop_master.*');
 		// $this->db->join('ntbl_items','ntbl_items.item_id=ntbl_rop_master.rop_master_item_id_fk');
 		// $this->db->from('ntbl_rop_master');
 		$this->db->join('ntbl_rop_master','ntbl_rop_master.rop_master_item_id_fk=ntbl_items.item_id','left');
@@ -336,8 +336,7 @@ class Masterstock_model extends CI_Model
 		return $data['data'] = $query->result();
 	}
 
-	public function getBranchReturnListTable()
-	{
+	public function getBranchReturnListTable(){
 		$this->db->select('*');
 		$this->db->join('ntbl_branches','ntbl_branches.branch_id=ntbl_bs_returntomaster.return_branch_id_fk');
 		$this->db->join('ntbl_items','ntbl_items.item_id=ntbl_bs_returntomaster.return_item_id_fk');
@@ -391,7 +390,7 @@ class Masterstock_model extends CI_Model
 		$this->db->select('*');
 		$this->db->from('ntbl_purchase');
 		$this->db->where('purchase_status',1);
-		$this->db->where('purcahse_id',$purchase_id);
+		$this->db->where('purchase_id',$purchase_id);
 		$query = $this->db->get();
 		return $data = $query->result();
 	}
@@ -401,7 +400,7 @@ class Masterstock_model extends CI_Model
 		$this->db->select('*,COALESCE(ntbl_purchase_return.pur_rtrn_qty,0) AS rtrn_qtys,COALESCE(ntbl_purchase_return.pur_rtrn_amt,0) AS rtrn_amts,COALESCE(ntbl_purchase_return.updated_at,0) AS rtrn_dates');
 		$this->db->join('ntbl_vendor','ntbl_vendor.vendor_id=ntbl_purchase.purchase_vendor_id_fk');
 		$this->db->join('ntbl_items','ntbl_items.item_id=ntbl_purchase.purchase_item_id_fk');
-		$this->db->join('ntbl_purchase_return','ntbl_purchase_return.pur_rtrn_fk_id=ntbl_purchase.purcahse_id','left');
+		$this->db->join('ntbl_purchase_return','ntbl_purchase_return.pur_rtrn_fk_id=ntbl_purchase.purchase_id','left');
 		$this->db->from('ntbl_purchase');
 		$this->db->where('purchase_status',1);
 		$query = $this->db->get();
@@ -499,7 +498,7 @@ class Masterstock_model extends CI_Model
 	{
 		$this->db->select('*,SUM(purchase_amt) AS purchase_amts');
 		$this->db->from('ntbl_vendor');
-		$this->db->join('(SELECT purchase_vendor_id_fk,purcahse_id,COALESCE(purchase_amt,0) AS purchase_amt FROM ntbl_purchase) AS ntbl_purchases','ntbl_purchases.purchase_vendor_id_fk=ntbl_vendor.vendor_id','left');
+		$this->db->join('(SELECT purchase_vendor_id_fk,purchase_id,COALESCE(purchase_amt,0) AS purchase_amt FROM ntbl_purchase) AS ntbl_purchases','ntbl_purchases.purchase_vendor_id_fk=ntbl_vendor.vendor_id','left');
 		$this->db->join('ntbl_vendor_pay','ntbl_vendor_pay.vendor_id_fk=ntbl_vendor.vendor_id','left');
 		$this->db->where('ntbl_vendor.vendor_status',1);
 		$query = $this->db->get();
@@ -510,7 +509,7 @@ class Masterstock_model extends CI_Model
 	{
 		$this->db->select('*,SUM(purchase_amt) AS purchase_amts');
 		$this->db->from('ntbl_vendor');
-		$this->db->join('(SELECT purchase_vendor_id_fk,purcahse_id,COALESCE(purchase_amt,0) AS purchase_amt FROM ntbl_purchase) AS ntbl_purchases','ntbl_purchases.purchase_vendor_id_fk=ntbl_vendor.vendor_id','left');
+		$this->db->join('(SELECT purchase_vendor_id_fk,purchase_id,COALESCE(purchase_amt,0) AS purchase_amt FROM ntbl_purchase) AS ntbl_purchases','ntbl_purchases.purchase_vendor_id_fk=ntbl_vendor.vendor_id','left');
 		$this->db->join('ntbl_vendor_pay','ntbl_vendor_pay.vendor_id_fk=ntbl_vendor.vendor_id','left');
 		$this->db->where('ntbl_vendor.vendor_status',1);
 		$this->db->where('vendor_id',$vendor_id);

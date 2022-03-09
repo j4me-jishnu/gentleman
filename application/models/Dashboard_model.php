@@ -8,14 +8,14 @@ Class Dashboard_model extends CI_Model{
         $query = $this->db->get();
     	return $query->result();
 	}
-	
+
 	public function gettotal_users2(){
 		$this->db->select('count(user_id)as totalusers');
 		$this->db->from('tbl_user');
 		$this->db->where("user_status",1)->where("is_active",1);
         $query = $this->db->get();
     	return $query->result();
-	} 
+	}
 
 
 	public function gettotal_stock(){
@@ -24,19 +24,21 @@ Class Dashboard_model extends CI_Model{
 		$query = $this->db->query($sql);
     	return $query->result();
 	}
-	
+
 	public function gettotal_stock2(){
-		$this->db->select('SUM(COALESCE(os_quantity,0) + COALESCE(return_qty,0) + COALESCE(purchase_qty,0) - COALESCE(req_item_quantity,0) - COALESCE(pur_rtrn_qty,0)) AS Total_qty');
-		$this->db->join('(SELECT os_item_id_fk,os_quantity FROM ntbl_master_os where os_status = 1) mstr_os','mstr_os.os_item_id_fk=ntbl_items.item_id','left');
-		$this->db->join('(SELECT return_item_id_fk,SUM(return_quantity) AS return_qty FROM ntbl_bs_returntomaster where is_approved = 1 GROUP BY return_item_id_fk) return_to_master','return_to_master.return_item_id_fk=ntbl_items.item_id','left');
-		$this->db->join('(SELECT purchase_item_id_fk,SUM(purchase_qty) AS purchase_qty FROM ntbl_purchase where purchase_status = 1 GROUP BY purchase_item_id_fk) mstr_purchase','mstr_purchase.purchase_item_id_fk=ntbl_items.item_id','left');
-		$this->db->join('(SELECT pur_rtrn_item_id,SUM(pur_rtrn_qty) AS pur_rtrn_qty FROM ntbl_purchase_return where pur_rtrn_status = 1 GROUP BY pur_rtrn_item_id) mstr_purchase_rtn','mstr_purchase_rtn.pur_rtrn_item_id=ntbl_items.item_id','left');
-		//$this->db->join('(SELECT btob_item_id_fk,SUM(btob_quantity) AS btob_quantity FROM ntbl_bs_branchtobranch where is_approved = 1 GROUP BY btob_item_id_fk) mstr_given','mstr_given.btob_item_id_fk=ntbl_items.item_id','left');
-		$this->db->join('(SELECT req_item_id_fk,SUM(req_item_quantity) AS req_item_quantity FROM ntbl_bs_stockrequests where req_status = 1 GROUP BY req_item_id_fk) mstr_given','mstr_given.req_item_id_fk=ntbl_items.item_id','left');
-		$this->db->from('ntbl_items');
-		$this->db->where('item_status',1);
-		$query = $this->db->get();
-		return $data['data'] = $query->result();
+		// $this->db->select('SUM(COALESCE(os_quantity,0) + COALESCE(return_qty,0) + COALESCE(purchase_qty,0) - COALESCE(req_item_quantity,0) - COALESCE(pur_rtrn_qty,0)) AS Total_qty');
+		// $this->db->join('(SELECT os_item_id_fk,os_quantity FROM ntbl_master_os where os_status = 1) mstr_os','mstr_os.os_item_id_fk=ntbl_items.item_id','left');
+		// $this->db->join('(SELECT return_item_id_fk,SUM(return_quantity) AS return_qty FROM ntbl_bs_returntomaster where is_approved = 1 GROUP BY return_item_id_fk) return_to_master','return_to_master.return_item_id_fk=ntbl_items.item_id','left');
+		// $this->db->join('(SELECT purchase_item_id_fk,SUM(purchase_qty) AS purchase_qty FROM ntbl_purchase where purchase_status = 1 GROUP BY purchase_item_id_fk) mstr_purchase','mstr_purchase.purchase_item_id_fk=ntbl_items.item_id','left');
+		// $this->db->join('(SELECT pur_rtrn_item_id,SUM(pur_rtrn_qty) AS pur_rtrn_qty FROM ntbl_purchase_return where pur_rtrn_status = 1 GROUP BY pur_rtrn_item_id) mstr_purchase_rtn','mstr_purchase_rtn.pur_rtrn_item_id=ntbl_items.item_id','left');
+		// //$this->db->join('(SELECT btob_item_id_fk,SUM(btob_quantity) AS btob_quantity FROM ntbl_bs_branchtobranch where is_approved = 1 GROUP BY btob_item_id_fk) mstr_given','mstr_given.btob_item_id_fk=ntbl_items.item_id','left');
+		// $this->db->join('(SELECT req_item_id_fk,SUM(req_item_quantity) AS req_item_quantity FROM ntbl_bs_stockrequests where req_status = 1 GROUP BY req_item_id_fk) mstr_given','mstr_given.req_item_id_fk=ntbl_items.item_id','left');
+		// $this->db->from('ntbl_items');
+		// $this->db->where('item_status',1);
+		// $query = $this->db->get();
+		// return $data['data'] = $query->result();
+		$query=$this->db->select_sum('stock_balance')->get('ntbl_stock_balances');
+		return $query->row()->stock_balance;
 	}
 
 	public function getPuchaseOder(){
@@ -95,7 +97,7 @@ Class Dashboard_model extends CI_Model{
 	public function gettotal_requests2(){
 		$this->db->select('count(req_id)as product_request');
 		$this->db->from('ntbl_bs_stockrequests');
-		$this->db->where("req_status",1);
+		$this->db->where("req_status",0);
 
         $query = $this->db->get();
     	return $query->result();
@@ -142,7 +144,7 @@ Class Dashboard_model extends CI_Model{
 		$this->db->select('count(distinct ref_number)as request');
 		$this->db->from('tbl_apurchase');
 		$this->db->where($where);
-		
+
         $query = $this->db->get();
     	return $query->result();
 	}
@@ -286,7 +288,7 @@ Class Dashboard_model extends CI_Model{
 
 	  function get_rop(){
 		$sql= "SELECT COALESCE(t5.item_rop, 0) AS item_rop,t4.branch_name,t3.item_name,(CASE WHEN t2.updated_date IS NULL THEN t1.issue_date ELSE t2.updated_date END) AS date,t2.shop_id_fk,t2.item_id_fk,t2.total_qty-(COALESCE(t1.total_issue_qty,0) + COALESCE(t6.total_return_qty,0) + COALESCE(t7.branch_qty,0)) as total FROM (SELECT branch_id_fk,item_id_fk,issue_date,SUM(issue_quantity) as total_issue_qty FROM tbl_issueitem GROUP BY item_id_fk,branch_id_fk) t1 RIGHT JOIN (SELECT id,item_id_fk,SUM(item_quantity) as total_qty,max(updated_date) as updated_date,shop_id_fk FROM tbl_shopstock GROUP BY shop_id_fk,item_id_fk) t2 ON t2.item_id_fk=t1.item_id_fk AND t2.shop_id_fk=t1.branch_id_fk LEFT JOIN (SELECT branch_id_fk,item_id_fk,return_date,SUM(item_quantity) as total_return_qty FROM tbl_returnproduct GROUP BY item_id_fk,branch_id_fk) t6 ON t6.item_id_fk=t2.item_id_fk AND t6.branch_id_fk=t2.shop_id_fk LEFT JOIN (SELECT item_id_fk,from_branch_id_fk,SUM(item_quantity) branch_qty from tbl_branch_to_branch where status = 1 GROUP BY from_branch_id_fk,item_id_fk) t7 ON t7.from_branch_id_fk=t2.shop_id_fk AND t7.item_id_fk=t2.item_id_fk Join tbl_item t3 on t3.item_id=t2.item_id_fk join tbl_branch t4 on t4.branch_id = t2.shop_id_fk join tbl_rop t5 on t2.item_id_fk=t5.item_id_fk and t2.shop_id_fk=t5.branch_id_fk order by id desc";
-		return $this->db->query($sql)->result();	
+		return $this->db->query($sql)->result();
 	//  $this->db->select('tbl_item.item_name')->from('tbl_item')->join('tbl_master_rop','tbl_item_id_fk=tbl_item.item_id')->join('')
 	}
 

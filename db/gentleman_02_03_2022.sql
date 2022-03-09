@@ -638,7 +638,7 @@ CREATE TABLE `ntbl_master_stock` (
 DROP TABLE IF EXISTS `ntbl_purchase`;
 
 CREATE TABLE `ntbl_purchase` (
-  `purcahse_id` int(11) NOT NULL AUTO_INCREMENT,
+  `purchase_id` int(11) NOT NULL AUTO_INCREMENT,
   `purchase_vendor_id_fk` int(11) NOT NULL,
   `purchase_bill_no` varchar(255) NOT NULL,
   `purchase_gst_no` varchar(255) NOT NULL,
@@ -649,15 +649,15 @@ CREATE TABLE `ntbl_purchase` (
   `purchase_date` datetime NOT NULL,
   `purchase_status` tinyint(2) NOT NULL,
   `purchase_amt` double DEFAULT NULL,
-  PRIMARY KEY (`purcahse_id`)
+  PRIMARY KEY (`purchase_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
-INSERT INTO `ntbl_purchase` (`purcahse_id`, `purchase_vendor_id_fk`, `purchase_bill_no`, `purchase_gst_no`, `purchase_item_id_fk`, `purchase_qty`, `purchase_price`, `purchase_tax`, `purchase_date`, `purchase_status`, `purchase_amt`) VALUES ('2', '1', 'B1234JK', 'ALC7854534354PL', '3', '50', '500', '20', '2022-02-10 12:00:00', '0', NULL);
-INSERT INTO `ntbl_purchase` (`purcahse_id`, `purchase_vendor_id_fk`, `purchase_bill_no`, `purchase_gst_no`, `purchase_item_id_fk`, `purchase_qty`, `purchase_price`, `purchase_tax`, `purchase_date`, `purchase_status`, `purchase_amt`) VALUES ('3', '2', 'BILL001', 'GSTIN010101', '3', '10', '100', '18', '2022-02-11 12:00:00', '1', NULL);
-INSERT INTO `ntbl_purchase` (`purcahse_id`, `purchase_vendor_id_fk`, `purchase_bill_no`, `purchase_gst_no`, `purchase_item_id_fk`, `purchase_qty`, `purchase_price`, `purchase_tax`, `purchase_date`, `purchase_status`, `purchase_amt`) VALUES ('4', '2', 'BILL002', 'GSTIN010101', '8', '10', '100', '18', '2022-02-11 12:00:00', '1', NULL);
-INSERT INTO `ntbl_purchase` (`purcahse_id`, `purchase_vendor_id_fk`, `purchase_bill_no`, `purchase_gst_no`, `purchase_item_id_fk`, `purchase_qty`, `purchase_price`, `purchase_tax`, `purchase_date`, `purchase_status`, `purchase_amt`) VALUES ('5', '2', 'BILL002', 'GSTIN010102', '8', '5', '10', '18', '2022-02-22 12:00:00', '0', NULL);
-INSERT INTO `ntbl_purchase` (`purcahse_id`, `purchase_vendor_id_fk`, `purchase_bill_no`, `purchase_gst_no`, `purchase_item_id_fk`, `purchase_qty`, `purchase_price`, `purchase_tax`, `purchase_date`, `purchase_status`, `purchase_amt`) VALUES ('6', '2', 'ffdsdffs33', '897654635435366988', '19', '10', '100', '2', '2022-03-01 12:00:00', '1', '1020');
-INSERT INTO `ntbl_purchase` (`purcahse_id`, `purchase_vendor_id_fk`, `purchase_bill_no`, `purchase_gst_no`, `purchase_item_id_fk`, `purchase_qty`, `purchase_price`, `purchase_tax`, `purchase_date`, `purchase_status`, `purchase_amt`) VALUES ('7', '2', 'ffdsdffs33', '897654635435366988', '20', '50', '100', '2', '2022-03-01 12:00:00', '1', '5100');
+INSERT INTO `ntbl_purchase` (`purchase_id`, `purchase_vendor_id_fk`, `purchase_bill_no`, `purchase_gst_no`, `purchase_item_id_fk`, `purchase_qty`, `purchase_price`, `purchase_tax`, `purchase_date`, `purchase_status`, `purchase_amt`) VALUES ('2', '1', 'B1234JK', 'ALC7854534354PL', '3', '50', '500', '20', '2022-02-10 12:00:00', '0', NULL);
+INSERT INTO `ntbl_purchase` (`purchase_id`, `purchase_vendor_id_fk`, `purchase_bill_no`, `purchase_gst_no`, `purchase_item_id_fk`, `purchase_qty`, `purchase_price`, `purchase_tax`, `purchase_date`, `purchase_status`, `purchase_amt`) VALUES ('3', '2', 'BILL001', 'GSTIN010101', '3', '10', '100', '18', '2022-02-11 12:00:00', '1', NULL);
+INSERT INTO `ntbl_purchase` (`purchase_id`, `purchase_vendor_id_fk`, `purchase_bill_no`, `purchase_gst_no`, `purchase_item_id_fk`, `purchase_qty`, `purchase_price`, `purchase_tax`, `purchase_date`, `purchase_status`, `purchase_amt`) VALUES ('4', '2', 'BILL002', 'GSTIN010101', '8', '10', '100', '18', '2022-02-11 12:00:00', '1', NULL);
+INSERT INTO `ntbl_purchase` (`purchase_id`, `purchase_vendor_id_fk`, `purchase_bill_no`, `purchase_gst_no`, `purchase_item_id_fk`, `purchase_qty`, `purchase_price`, `purchase_tax`, `purchase_date`, `purchase_status`, `purchase_amt`) VALUES ('5', '2', 'BILL002', 'GSTIN010102', '8', '5', '10', '18', '2022-02-22 12:00:00', '0', NULL);
+INSERT INTO `ntbl_purchase` (`purchase_id`, `purchase_vendor_id_fk`, `purchase_bill_no`, `purchase_gst_no`, `purchase_item_id_fk`, `purchase_qty`, `purchase_price`, `purchase_tax`, `purchase_date`, `purchase_status`, `purchase_amt`) VALUES ('6', '2', 'ffdsdffs33', '897654635435366988', '19', '10', '100', '2', '2022-03-01 12:00:00', '1', '1020');
+INSERT INTO `ntbl_purchase` (`purchase_id`, `purchase_vendor_id_fk`, `purchase_bill_no`, `purchase_gst_no`, `purchase_item_id_fk`, `purchase_qty`, `purchase_price`, `purchase_tax`, `purchase_date`, `purchase_status`, `purchase_amt`) VALUES ('7', '2', 'ffdsdffs33', '897654635435366988', '20', '50', '100', '2', '2022-03-01 12:00:00', '1', '5100');
 
 
 #

@@ -156,7 +156,7 @@ $(function () {
 
       { "data": "rop_master_rops", "orderable": false },
 
-      { "data": "rop_master_date", "orderable": false },
+      { "data": "updated_date", "orderable": false },
 
       { "data": null, "defaultContent":""},
 
@@ -213,4 +213,3 @@ if(response){
 
 
 </script>
-

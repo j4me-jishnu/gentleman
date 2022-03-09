@@ -21,7 +21,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <!-- DataTables -->
   <link rel="stylesheet" href="<?php echo base_url();?>assets/plugins/datatables/dataTables.bootstrap.css">
-  
+
   <!-- Ionicons -->
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
@@ -62,6 +62,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link href="http://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.css" rel="stylesheet" type="text/css">
   <link href="http://www.jqueryscript.net/demo/Sliding-Growl-Notification-Plugin-For-jQuery-jsnotify/dist/css/notify.css" rel="stylesheet"/>
   <link href="http://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+  <!-- ################################sweetAlert######################################## -->
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.css"> -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.js"></script> -->
+  <script src="<?php echo base_url();?>assets/js/swal.min.js"></script>
+  <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/swal.min.css">
 
 </head>
 
@@ -166,7 +171,7 @@ desired effect
                       ?>
 
                       <?php
-                      
+
                       if(isset($pending_purchase)){
 
                        foreach($pending_purchase as $row){
@@ -181,11 +186,11 @@ desired effect
                       }
 
                     }
-                      
+
                       ?>
 
 <?php
-                      
+
                       if(isset($rop)){
 
                        foreach($rop as $row){
@@ -201,7 +206,7 @@ desired effect
                       }
 
                     }
-                      
+
                       ?>
 
                     </ul>

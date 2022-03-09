@@ -183,4 +183,28 @@ class NewBranchModel extends CI_Model
     	$data['recordsFiltered']=$query->num_rows();
     	return $data['data'] ? $data : false;
 	}
+
+	public function get_single_branch_stock_request($param,$branch_id){
+		// $searchValue =($param['searchValue'])?$param['searchValue']:'';
+		// if($searchValue){
+		// 	$this->db->like('ntbl_branches.branch_name', $searchValue);
+		// 	//$this->db->or_like('ntbl_items.item_name', $searchValue);
+		// }
+		// if ($param['start'] != 'false' and $param['length'] != 'false') {
+		// 	$this->db->limit($param['length'],$param['start']);
+		// }
+		// $this->db->select('*');
+		// $this->db->join('ntbl_branches','ntbl_branches.branch_id=ntbl_bs_returntomaster.return_branch_id_fk');
+		// $this->db->join('ntbl_items','ntbl_items.item_id=ntbl_bs_returntomaster.return_item_id_fk');
+		// $this->db->from('ntbl_bs_returntomaster');
+		// $this->db->where('return_status',1);
+		// $query = $this->db->get();
+
+		$query=$this->db->select('*')
+		->join('ntbl_branches','ntbl_branches.branch_id=ntbl_bs_stockrequests.req_branch_id_fk','left')
+		->join('ntbl_items','ntbl_items.item_id=ntbl_bs_stockrequests.req_item_id_fk','left')
+		->where('req_branch_id_fk',$branch_id)
+		->get('ntbl_bs_stockrequests');
+		return $data['data'] = $query->result();
+	}
 }

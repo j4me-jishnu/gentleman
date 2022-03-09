@@ -1,123 +1,64 @@
 <script type="text/javascript">
-
-
-
 $(document).ready(function(){
-
   $table = $('#branchtobranch_table').DataTable( {
-
     "processing": true,
-
     "serverSide": false,
-
     "bDestroy" : true,
-
     dom: 'lBfrtip',
     aLengthMenu: [
         [100, 200, 300, 400, -1],
         [100, 200, 300, 400, "All"]
     ],
-
     buttons: [
-
       {
-
         extend: 'copy',
-
         exportOptions: {
-
           columns: [ 1, 2, 3 , 4 ]
-
         }
-
       },
-
       {
-
         extend: 'excel',
-
         exportOptions: {
-
           columns: [ 1, 2, 3 , 4 ]
-
         }
-
       },
-
       {
-
         extend: 'pdf',
-
         exportOptions: {
-
           columns: [ 1, 2, 3 , 4 ]
-
         }
-
       },
-
       {
-
         extend: 'print',
-
         exportOptions: {
-
           columns: [ 1, 2, 3 , 4 ]
-
         }
-
       },
-
       {
-
         extend: 'csv',
-
         exportOptions: {
-
           columns: [ 1, 2, 3 , 4 ]
-
         }
-
       },
-
     ],
-
     "ajax": {
-
       "url": "<?php echo base_url();?>NewBranch/getBranchtoBranchRequests/",
-
       "type": "POST",
-
       "data" : function (d) {
-
-        //console.log(d);
-
       }
-
     },
-
     "createdRow": function ( row, data, index ) {
-
       $table.column(0).nodes().each(function(node,index,dt){
-
         $table.cell(node).data(index+1);
-
       });
-
       if(data['is_approved']==0){
-
         $('td', row).eq(5).html('<center><button type="button" class="btn btn-warning">Pending</button></center>');
-
       }
-
       else if(data['req_status']==1){
 
         $('td', row).eq(5).html('<center><button type="button" class="btn btn-success">Approved</button></center>');
-
       }
-
       else{
-
         $('td', row).eq(5).html('<center><button type="button" class="btn btn-danger">Rejected</button></center>');
 
       }
@@ -148,114 +89,93 @@ $(document).ready(function(){
 
 })
 
-
-
-
+// function showBtoBRequestModal(){
+//   $.ajax({
+//   url: '<?php echo base_url(); ?>NewCommon/getAllStockItems',
+//   type: 'post',
+//   data: {},
+//   success: function(response){
+//     var data = JSON.parse(response);
+//     var dataset = data.data;
+//     $('#selectItem option').remove();
+//     var select=document.getElementById("selectItem");
+//     dataset.forEach((item) => {
+//       $(select).append('<option value="'+item['item_id']+'">'+item['item_name']+'</option>');
+//     });
+//   }
+// });
+//
+//   $.ajax({
+//   url: '<?php echo base_url(); ?>NewCommon/getAllBranches',
+//   type: 'post',
+//   data: {},
+//   success: function(response){
+//     var dataset = data.data;
+//     $('#selectBranch option').remove();
+//     var select=document.getElementById("selectBranch");
+//     dataset.forEach((item) => {
+//       $(select).append('<option value="'+item['branch_id']+'">'+item['branch_name']+'</option>');
+//     });
+//   }
+// });
+//
+//
+// $('#requestBtoBModal').modal('show');
+//
+// }
 
 function showBtoBRequestModal(){
+  $.ajax({
+    url: '<?php echo base_url(); ?>NewCommon/getAllStockItems',
+    type: 'post',
+    data: {},
+    success: function(response){
+      var data = JSON.parse(response);
+      var dataset = data.data;
+      $('#selectItem option').remove();
+      var select=document.getElementById("selectItem");
+      dataset.forEach((item) => {
+        $(select).append('<option value="'+item['item_id']+'">'+item['item_name']+'</option>');
+      });
+    }
+  });
 
   $.ajax({
-
-  url: '<?php echo base_url(); ?>NewCommon/getAllStockItems',
-
-  type: 'post',
-
-  data: {},
-
-  success: function(response){
-
-    var data = JSON.parse(response);
-
-    var dataset = data.data;
-
-    $('#selectItem option').remove();
-
-    var select=document.getElementById("selectItem");
-
-    dataset.forEach((item) => {
-
-      $(select).append('<option value="'+item['item_id']+'">'+item['item_name']+'</option>');
-
-    });
-
-  }
-
-});
-
-  $.ajax({
-
-  url: '<?php echo base_url(); ?>NewCommon/getAllBranches',
-
-  type: 'post',
-
-  data: {},
-
-  success: function(response){
-
-    var data = JSON.parse(response);
-
-    var dataset = data.data;
-
-    $('#selectBranch option').remove();
-
-    var select=document.getElementById("selectBranch");
-
-    dataset.forEach((item) => {
-
-      $(select).append('<option value="'+item['branch_id']+'">'+item['branch_name']+'</option>');
-
-    });
-
-  }
-
-});
-
-    $('#requestBtoBModal').modal('show');
-
+    url: '<?php echo base_url(); ?>NewCommon/getAllBranches',
+    type: 'post',
+    data: {},
+    success: function(response){
+      var data = JSON.parse(response);
+      var dataset = data.data;
+      $('#selectBranch option').remove();
+      var select=document.getElementById("selectBranch");
+      dataset.forEach((item) => {
+        $(select).append('<option value="'+item['branch_id']+'">'+item['branch_name']+'</option>');
+      });
+    }
+  });
+  $('#requestBtoBModal').modal('show');
 }
 
 
 
 function editrequestBtoBModal(btob_id) {
-
-  // $('#selectBranch2').selectmenu("refresh", true);
-
-  // $('#selectItem2').selectmenu("refresh", true);
-
   $.ajax({
-
   url: '<?php echo base_url(); ?>NewCommon/getAllBranches',
-
   type: 'post',
-
   data: {},
-
   success: function(response){
-
     var data = JSON.parse(response);
-
     var dataset = data.data;
-
     $('#selectBranch2 option').remove();
-
     var branch2=document.getElementById("selectBranch2");
-
     dataset.forEach((item) => {
-
       $(branch2).append('<option value="'+item['branch_id']+'">'+item['branch_name']+'</option>');
-
     });
-
   }
-
 });
-
-
-
   $.ajax({
-
   url: '<?php echo base_url(); ?>NewCommon/getAllStockItems',
-
   type: 'post',
 
   data: {},
@@ -308,7 +228,7 @@ console.log(data[0].item_name);
 
     $("#selectItem2 option[value='"+data[0].item_id+"']").prop('selected',true);
 
-    
+
 
     //$('#selectItem option').remove();
 
@@ -324,7 +244,7 @@ console.log(data[0].item_name);
 
 });
 
-  
+
 
   $('#editrequestBtoBModal').modal('show');
 
@@ -349,9 +269,7 @@ function confirmDelete(btob_id)
   data: {btob_id:btob_id},
 
   success: function(response){
-
     $('#branchtobranch_table').DataTable().ajax.reload();
-
   }
 
 });
@@ -359,6 +277,4 @@ function confirmDelete(btob_id)
 }
 
 }
-
 </script>
-

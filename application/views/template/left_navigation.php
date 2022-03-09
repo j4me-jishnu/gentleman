@@ -99,7 +99,7 @@ Left side column. contains the logo and sidebar
             <li class="<?php if($this->uri->segment(2)=="showMasterStock"){echo "active";} ?>" ><a  href="<?php echo base_url(); ?>NewMaster/showMasterStock"><i class="fa fa-building"></i> <span>Master Stock</span></a></li>
             <li class="<?php if($this->uri->segment(2)=="showMasterStock"){echo "active";} ?>" ><a  href="<?php echo base_url(); ?>NewMaster/showBranchStock"><i class="fa fa-building"></i> <span>Branch Stock</span></a></li>
             <!-- <li class="" ><a  href="#"><i class="fa  fa-gear"></i> <span>Set Re-order point</span></a></li> -->
-            <li class="<?php if($this->uri->segment(2)=="showBranchItemRequestsPage"){echo "active";} ?>" ><a  href="<?php echo base_url(); ?>newMaster/showBranchItemRequestsPage"><i class="fa fa-arrow-circle-left"></i> <span>Branch Item Requests</span></a></li>
+            <li class="<?php if($this->uri->segment(2)=="showBranchItemRequestsPage"){echo "active";} ?>" ><a  href="<?php echo base_url(); ?>newMaster/showBranchItemRequestsPage"><i class="fa fa-arrow-circle-left"></i> <span>Stock Requests</span></a></li>
             <li class="<?php if($this->uri->segment(2)=="showB2bRequest"){echo "active";} ?>" ><a  href="<?php echo base_url(); ?>newMaster/showB2bRequest"><i class="fa fa-gavel"></i> <span>Branch to Branch Requests</span></a></li>
             <li class="<?php if($this->uri->segment(2)=="showBranchReturn"){echo "active";} ?>" ><a  href="<?php echo base_url(); ?>newMaster/showBranchReturn"><i class="fa fa-desktop"></i> <span>Branch Returns</span></a></li>
             <li class="" ><a><i class="fa fa-table"></i> <span>Reports</span><br> <span class="pull-right-container">

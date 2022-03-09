@@ -39,244 +39,129 @@ $(function () {
 
 
   $table = $('#designation_table').DataTable( {
-
     "processing": true,
-
     "serverSide": false,
-
     "bDestroy" : true,
-
     dom: 'lBfrtip',
     aLengthMenu: [
         [100, 200, 300, 400, -1],
         [100, 200, 300, 400, "All"]
     ],
     buttons: [
-
       {
-
         extend: 'copy',
-
         exportOptions: {
-
           columns: [ 1, 2]
-
         }
-
       },
-
       {
-
         extend: 'excel',
-
         exportOptions: {
-
           columns: [ 1, 2]
-
         }
-
       },
-
       {
-
         extend: 'pdf',
-
         exportOptions: {
-
           columns: [ 1, 2]
-
         }
-
       },
-
       {
-
         extend: 'print',
-
         exportOptions: {
-
           columns: [ 1, 2]
-
         }
-
       },
-
       {
-
         extend: 'csv',
-
         exportOptions: {
-
           columns: [ 1, 2]
-
         }
-
       },
-
     ],
-
     "ajax": {
-
       "url": "<?php echo base_url();?>NewMaster/getB2bRequest/",
-
       'dataSrc':"",
-
       "type": "POST",
-
       "data" : function (d) {
-
-
-
       }
-
     },
-
     "createdRow": function ( row, data, index ) {
-
-
-
+      console.log(data);
       $table.column(0).nodes().each(function(node,index,dt){
-
         $table.cell(node).data(index+1);
-
       });
-
     if(data['approval']==0){
-
       $('td', row).eq(7).html('<center><?php $u = $this->session->userdata('user_type'); if($u != 'S'){ ?><a onclick="approveb2b('+data['b2b_id']+')"><button class="btn btn-success">APPROVE</button></a>&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="rejectB2B('+data['b2b_id']+')"><button class="btn btn-danger">REJECT</button></a><?php } ?></center>');
     }
     else{
-      $('td', row).eq(7).html('<center><?php $u = $this->session->userdata('user_type'); if($u != 'S'){ ?><button class="btn btn-success" disabled>APPROVE</button></a>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-danger" disabled>REJECT</button><?php } ?></center>');
-    }  
-
+      $('td', row).eq(7).html('<center><?php $u = $this->session->userdata('user_type'); if($u != 'S'){ ?><button class="btn btn-success" data-id="1" disabled>APPROVE</button></a>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-danger" disabled>REJECT</button><?php } ?></center>');
+    }
     },
-
-
-
     "columns": [
-
       { "data": "b2b_status", "orderable": true },
-
       { "data": "item_names", "orderable": false },
-
       { "data": "given_br_name", "orderable": false },
-
       { "data": "recieved_br_name", "orderable": false },
-
       { "data": "b2b_quantity", "orderable": false },
-
       { "data": "b2b_remark", "orderable": false },
-
       { "data": "approval", render : function (data, type, full, meta)
-
             {
-
                 if(data=="1"){
-
                     return '<button class="btn btn-success">Approved</button>';
-
                 }
-
                 else if(data=="0")
-
                 {
-
-                    return '<button class="btn btn-warning">Pending</button>';    
-
+                    return '<button class="btn btn-warning">Pending</button>';
                 }
-
                 else if(data=="2")
-
                 {
-
-                    return '<button class="btn btn-danger">Rejected</button>';   
-
-                } 
-
+                    return '<button class="btn btn-danger">Rejected</button>';
+                }
             }
-
       },
-
       { "data": null, "defaultContent":""},
-
     ]
-
   } );
-
 });
-
 function confirmDelete(vendor_id){
-
   var conf = confirm("Do you want to Delete Vendor Details ?");
-
   if(conf){
-
     $.ajax({
-
       url:"<?php echo base_url();?>NewMaster/deleteVendorDetails",
-
       data:{vendor_id:vendor_id},
-
       method:"POST",
-
       datatype:"json",
-
       success:function(data){
-
         var options = $.parseJSON(data);
-
         noty(options);
-
         $table.ajax.reload();
-
       }
-
     });
-
   }
-
 }
-
 var response = $("#response").val();
-
 if(response){
-
   console.log(response,'response');
-
   var options = $.parseJSON(response);
-
   noty(options);
-
 }
 
-
-
-function approveb2b(b2b_id)
-
-{
-
+function approveb2b(b2b_id){
     $.ajax({
-
       url:"<?php echo base_url();?>NewMaster/approvajaxb2b",
-
       data:{b2b_id:b2b_id},
-
       method:"POST",
-
       datatype:"json",
-
       success:function(data){
-
         var options = $.parseJSON(data);
-
+        if(options.status==false){
+          window.location = "http://localhost/gentleman/newMaster/showB2bRequest";
+        }else{
         noty(options);
-
-        //$table.ajax.reload();
-
         $('#designation_table').DataTable().ajax.reload();
-
       }
-
+      }
     });
 
 }
@@ -294,4 +179,3 @@ function rejectB2B(b2b_id)
 }
 
 </script>
-
