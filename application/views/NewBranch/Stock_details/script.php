@@ -87,6 +87,7 @@
       //"url": "<?php echo base_url();?>Common/Test/",
 
       "type": "POST",
+      "dataSrc":'',
 
       "data" : function (d) {
 
@@ -151,7 +152,7 @@
       { "data": "item_name", "orderable": false },
 
       { "data": "os_quantity", "orderable": false },
-      
+
       { "data": "branch_qty_sum", "orderable": false },
 
       { "data": "brach_r_qty_sum", "orderable": false },

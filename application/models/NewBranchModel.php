@@ -124,8 +124,7 @@ class NewBranchModel extends CI_Model
 
 	}
 
-	public function getToStockRquestListEdit()
-	{
+	public function getToStockRquestListEdit(){
 		$this->db->select('*');
 		$this->db->from('ntbl_bs_stockrequests');
 		$this->db->join('ntbl_items','ntbl_items.item_id=ntbl_bs_stockrequests.req_item_id_fk');
@@ -153,8 +152,8 @@ class NewBranchModel extends CI_Model
 		$query = $this->db->get();
 		$data['data'] = $query->result();
 		$data['recordsTotal']=$query->num_rows();
-    	$data['recordsFiltered']=$query->num_rows();
-    	return $data['data'] ? $data : false;
+    $data['recordsFiltered']=$query->num_rows();
+    return $data;
 	}
 
 	public function getBranchOpeningStock($param,$condition,$branch_id)

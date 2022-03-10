@@ -100,6 +100,7 @@ class NewBranch extends MY_Controller {
 
 	public function addIssuedStock()
 	{
+		if(!empty($this->params['emp_id'])&&!empty($this->params['item_qty'])&&!empty($this->params['item_id'])){
 		$insert_array = [
 			'issued_branch_id_fk' => $this->branch_id,
 			'issued_item_id_fk' => $this->params['item_id'],
@@ -110,16 +111,48 @@ class NewBranch extends MY_Controller {
 			'created_at' => date('Y-m-d H:i:sa'),
 			'updated_at' => date('Y-m-d H:i:sa'),
 		];
+		$branch_id=$this->branch_id;
+		$item_id=$this->params['item_id'];
+		$quantity=$this->params['item_qty'];
+		$current_stock=$this->NewCommonModel->get_single_item_current_stock($branch_id,$item_id);
+		if($current_stock<=$quantity){
+			$message="Stock balance is only ".$current_stock.". Please choose another ";
+			$this->session->set_flashdata('message',$message);
+			$this->session->set_flashdata('type',"error");
+			redirect('NewBranch/showIssuedItemsPage', 'refresh');
+		}
+		else{
 
-		$response = $this->General_model->add('ntbl_bs_issuedstock',$insert_array);
-		if($response)
-		{
-			redirect('/NewBranch/showIssuedItemsPage');
+		$branch_update_result=$this->NewCommonModel->stockUpdate($branch_id,$item_id,$quantity,false);
+		if($branch_update_result){
+			$response = $this->General_model->add('ntbl_bs_issuedstock',$insert_array);
+			if($response){
+				$message="Stock updated successfully!";
+				$this->session->set_flashdata('message',$message);
+				$this->session->set_flashdata('type',"success");
+				redirect('NewBranch/showIssuedItemsPage', 'refresh');
+			}
+			else{
+				$message="Something went wrong! Couldn't update stock!";
+				$this->session->set_flashdata('message',$message);
+				$this->session->set_flashdata('type',"error");
+				redirect('NewBranch/showIssuedItemsPage', 'refresh');
+			}
 		}
-		else
-		{
-			redirect('/NewBranch/showIssuedItemsPage');
+		else{
+			$message="Something went wrong! Failed to update stock";
+			$this->session->set_flashdata('message',$message);
+			$this->session->set_flashdata('type',"error");
+			redirect('NewBranch/showIssuedItemsPage', 'refresh');
 		}
+	}
+	}
+	else{
+		$message="Plese fill all the mandatory fields";
+		$this->session->set_flashdata('message',$message);
+		$this->session->set_flashdata('type',"error");
+		redirect('NewBranch/showIssuedItemsPage', 'refresh');
+	}
 	}
 
 	public function deleteIssuedStock()

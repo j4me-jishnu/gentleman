@@ -85,6 +85,7 @@
       "url": "<?php echo base_url();?>NewBranch/getEmployeeList/",
 
       "type": "POST",
+      "dataSrc":'',
 
       "data" : function (d) {
 
@@ -183,4 +184,3 @@
   }
 
 </script>
-

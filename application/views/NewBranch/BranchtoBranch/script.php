@@ -44,6 +44,7 @@ $(document).ready(function(){
     "ajax": {
       "url": "<?php echo base_url();?>NewBranch/getBranchtoBranchRequests/",
       "type": "POST",
+      "dataSrc":'',
       "data" : function (d) {
       }
     },

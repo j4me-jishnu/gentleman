@@ -47,7 +47,3 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-
-
-
-

@@ -83,10 +83,11 @@
     "ajax": {
 
       "url": "<?php echo base_url();?>NewBranch/getIssuedList/",
-      
+
       // 'dataSrc':"",
 
       "type": "POST",
+      // "dataSrc":'',
 
       "data" : function (d) {
 

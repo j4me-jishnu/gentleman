@@ -87,6 +87,7 @@ $(document).ready(function(){
       "url": "<?php echo base_url();?>NewBranch/getReturntomasterRequests/",
 
       "type": "POST",
+      "dataSrc":'',
 
       "data" : function (d) {
 
@@ -181,4 +182,3 @@ function addReturnStockModal(){
 }
 
 </script>
-

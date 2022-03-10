@@ -91,6 +91,7 @@ Left side column. contains the logo and sidebar
             </li>
             <!-- <li class="" ><a  href="<?php echo base_url(); ?>NewMasterstock"><i class="fa  fa-gear"></i> <span>Masterstock data</span></a></li> -->
             <li class="<?php if($this->uri->segment(2)=="showCategory"){echo "active";} ?>" ><a  href="<?php echo base_url(); ?>NewMaster/showCategory"><i class="fa fa-briefcase"></i> <span>Item Category</span></a></li>
+            <li class="<?php if($this->uri->segment(2)=="showCategory"){echo "active";} ?>" ><a  href="<?php echo base_url(); ?>NewMaster/showItem"><i class="fa fa-briefcase"></i> <span>Items</span></a></li>
             <li class="<?php if($this->uri->segment(2)=="showDesignation"){echo "active";} ?>" ><a  href="<?php echo base_url(); ?>NewMaster/showDesignation"><i class="fa fa-briefcase"></i> <span>Designation</span></a></li>
             <li class="<?php if($this->uri->segment(2)=="ShowEmployeeList"){echo "active";} ?>" ><a  href="<?php echo base_url(); ?>NewMaster/ShowEmployeeList"><i class="fa fa-users"></i> <span>Employee</span></a></li>
             <li class="<?php if($this->uri->segment(2)=="showMasterOpeningStock"){echo "active";} ?>" ><a  href="<?php echo base_url(); ?>NewMaster/showMasterOpeningStock"><i class="fa fa-cubes"></i> <span>Opening Stock</span></a></li>

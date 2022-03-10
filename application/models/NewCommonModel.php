@@ -12,6 +12,12 @@ class NewCommonModel extends CI_Model
 		return $query ? true : false;
 	}
 
+	public function insert_get_id($table,$data_array){
+		$query=$this->db->insert($table,$data_array);
+		$insert_id = $this->db->insert_id();
+   	return  $insert_id;
+	}
+
 	public function add_data_where($table,$data_array,$condition){
 		$query=$this->db->insert($table,$data_array)->where($condition);
 		return $query ? true : false;
@@ -194,15 +200,47 @@ class NewCommonModel extends CI_Model
 		return $query ? true : false;
 	}
 
-	public function get_master_stock_balances(){
+	public function get_master_stock_balances($branch_id){
 		$master_branch=$this->get_master_id();
-		$query=$this->db->select('*,COALESCE(os_stock_qty,0) AS os_stock, COALESCE(purchase_qty,0) AS purchase_stock')
-		->join('ntbl_items','ntbl_items.item_id=ntbl_stock_balances.item_id','left')
-		->join('ntbl_purchase','ntbl_purchase.purchase_item_id_fk=ntbl_stock_balances.item_id','left')
-		->join('ntbl_openingstock','ntbl_openingstock.os_branch_id='.$master_branch.' and ntbl_openingstock.os_item_id=ntbl_stock_balances.item_id','left')
-		// ->join('ntbl_openingstock','ntbl_openingstock.os_branch_id='.$master_branch.' and ntbl_openingstock.os_item_id=ntbl_stock_balances.item_id','left')
-		->where('branch_id',$master_branch)
-		->get('ntbl_stock_balances');
+		if($master_branch == $branch_id){
+			$purchase_stock = "COALESCE((SELECT SUM(COALESCE(purchase_qty,0)) FROM ntbl_purchase where ntbl_purchase.purchase_item_id_fk=ntbl_items.item_id ),0)";
+			$purchase_return_stock = "COALESCE((SELECT SUM(COALESCE(pur_rtrn_qty,0)) FROM ntbl_purchase_return where ntbl_purchase_return.pur_rtrn_item_id=ntbl_items.item_id  ),0)";
+		} else {
+			$purchase_stock = "0";
+			$purchase_return_stock = "0";
+		}
+
+		// $branch_id = $this->branch_id;
+		$query=$this->db->select('item_name,
+		COALESCE((SELECT SUM(COALESCE(os_stock_qty,0)) FROM ntbl_openingstock where ntbl_openingstock.os_item_id=ntbl_items.item_id and os_branch_id = "'.$branch_id.'"  ),0) as os_quantity,
+		COALESCE((SELECT SUM(COALESCE(return_quantity,0)) FROM ntbl_bs_returntomaster where ntbl_bs_returntomaster.return_item_id_fk=ntbl_items.item_id and is_approved=1  ),0) as return_qty,
+		'.$purchase_stock.' as purchase_qty,
+		'.$purchase_return_stock.' as pur_rtrn_qty,
+			COALESCE((SELECT SUM(COALESCE(req_item_quantity,0)) FROM ntbl_bs_stockrequests where ntbl_bs_stockrequests.req_item_id_fk=ntbl_items.item_id and req_status=1  ),0)  as req_item_quantity,
+			COALESCE((SELECT SUM(COALESCE(stock_balance,0)) FROM ntbl_stock_balances where ntbl_stock_balances.item_id=ntbl_items.item_id and ntbl_stock_balances.branch_id = "'.$branch_id.'"  ),0) as Total_qty')
+		// ->join('ntbl_purchase','ntbl_purchase.purchase_item_id_fk=ntbl_items.item_id',"left")
+		// ->join('ntbl_stock_balances','ntbl_stock_balances.item_id=ntbl_items.item_id and ntbl_stock_balances.branch_id = '.$branch_id,"left")
+		// ->join('ntbl_purchase_return','ntbl_purchase_return.pur_rtrn_item_id=ntbl_items.item_id',"left")
+		// ->where('branch_id',$master_branch)
+		->group_by('ntbl_items.item_id')
+		->get('ntbl_items');
 		return $query->result();
+	}
+
+	public function getCategoryList(){
+		$query=$this->db->select('*')->get('ntbl_category');
+		return $query->result();
+	}
+	public function get_item_list(){
+		$query=$this->db->select('*')
+		->join('ntbl_category','ntbl_category.cate_id=ntbl_items.item_cat_fk')
+		->get('ntbl_items');
+		return $query->result();
+	}
+
+	public function test(){
+		$sql="SELECT * FROM ntbl_stock_balances where 1";
+		$query = $this->db->query($sql);
+	 	var_dump($query->result_array());
 	}
 }

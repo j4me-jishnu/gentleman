@@ -365,8 +365,7 @@ class NewMaster extends MY_Controller {
 			}
 		}
 	}
-	public function editROPmasterList($item_id)
-	{
+	public function editROPmasterList($item_id){
 		$item_con = ['item_status'=>1];
 		$template['item'] = $this->General_model->getall('ntbl_items',$item_con);
 		$template['records'] = $this->Masterstock_model->getEditRopMasterList($item_id);
@@ -706,19 +705,16 @@ class NewMaster extends MY_Controller {
 	}
 
 	/////////////////////Master Stock///////////////////////////////
-	public function showMasterStock()
-	{
+	public function showMasterStock(){
 		$template['body'] = 'NewMaster/MasterStock/list';
 		$template['script'] = 'NewMaster/MasterStock/script';
 		$this->load->view('template',$template);
 	}
 
-	public function getMasterStockList()
-	{
+	public function getMasterStockList(){
 		$this->result = $this->Masterstock_model->getMasterStockListTable();
 		// $HELLO = $this->db->last_query();
 		// var_dump($HELLO);die;
-
 	}
 
 	//////////////////Purchase Return///////////////////////////////
@@ -966,6 +962,75 @@ public function showCategory()
 	$template['body'] = 'NewMaster/Category/list';
 	$template['script'] = 'NewMaster/Category/script';
 	$this->load->view('template',$template);
+}
+
+public function showItem(){
+	$template['categories']=$this->NewCommonModel->getCategoryList();
+	$template['body'] = 'NewMaster/Item/list';
+	$template['script'] = 'NewMaster/Item/script';
+	$this->load->view('template',$template);
+}
+
+public function addItem(){
+	if(!empty($_POST['opening_stock'])){
+		$insert_array=[
+			'item_name'=>$_POST['item_name'],
+			'item_cat_fk'=>$_POST['category'],
+			'created_at'=>date('Y-m-d H:i:s'),
+		];
+		$opening_stock=$_POST['opening_stock'];
+		$branch_id=$this->branch_id;
+		$item_id=$this->NewCommonModel->insert_get_id('ntbl_items',$insert_array);
+		$insert_array=[
+			'os_branch_id'=>$branch_id,
+			'os_item_id'=>$item_id,
+			'os_stock_qty'=>$opening_stock,
+			'os_status'=>1,
+			'created_at'=>date('Y-m-d H:i:s'),
+		];
+		if($item_id){
+			$updateBranchStock=$this->NewCommonModel->stockUpdate($branch_id,$item_id,$opening_stock,true);
+			$addToOpeningStock=$this->NewCommonModel->add_data('ntbl_openingstock',$insert_array);
+			if($updateBranchStock && $addToOpeningStock){
+				$message="Item added successfully! and Opening stock updated!";
+				$this->session->set_flashdata('message',$message);
+				$this->session->set_flashdata('type',"success");
+				redirect('NewMaster/showItem', 'refresh');
+			}
+			else{
+				$message="Something went wrong! Failed to update new item stock";
+				$this->session->set_flashdata('message',$message);
+				$this->session->set_flashdata('type',"error");
+				redirect('NewMaster/showItem', 'refresh');
+			}
+		}
+		else{
+			$message="Something went wrong! Failed to add new item";
+			$this->session->set_flashdata('message',$message);
+			$this->session->set_flashdata('type',"error");
+			redirect('NewMaster/showItem', 'refresh');
+		}
+	}
+	else{
+		$insert_array=[
+			'item_name'=>$_POST['item_name'],
+			'item_cat_fk'=>$_POST['category'],
+			'created_at'=>date('Y-m-d H:i:s')
+		];
+		$query1=$this->NewCommonModel->add_data('ntbl_items',$insert_array);
+		if($query1){
+			$message="Item added successfully";
+			$this->session->set_flashdata('message',$message);
+			$this->session->set_flashdata('type',"success");
+			redirect('NewMaster/showItem', 'refresh');
+		}
+		else{
+			$message="Something went wrong! Failed to add new item";
+			$this->session->set_flashdata('message',$message);
+			$this->session->set_flashdata('type',"error");
+			redirect('NewMaster/showItem', 'refresh');
+		}
+	}
 }
 
 public function getCategoryList()
@@ -1321,12 +1386,21 @@ public function approveStockRequest(){
 	}
 }
 
+public function getItemList(){
+	$this->result=$this->NewCommonModel->get_item_list();
+}
+
+public function test(){
+	$branch_id = $this->branch_id;
+	$result=$this->NewCommonModel->get_master_stock_balances($branch_id);
+	echo json_encode($result); die;
+}
+
 public function __destruct(){
 	if(isset($this->result)){
 		echo json_encode($this->result);
 	}
 }
-
 
 }
 ?>
