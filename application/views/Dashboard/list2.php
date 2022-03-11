@@ -232,12 +232,12 @@
               }
             }
             ?></h3>
-            <p>Employees</p>
+            <p>Total Employees</p>
           </div>
           <div class="icon">
             <i class="fa fa-cube"></i>
           </div>
-          <a href="<?php echo base_url(); ?>NewMaster/ShowEmployeeList"" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          <a href="<?php echo base_url(); ?>NewMaster/ShowEmployeeList" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
         </div>
       </div>
 
@@ -245,14 +245,7 @@
         <!-- small box -->
         <div class="small-box bg-green">
           <div class="inner">
-            <h3><?php foreach ($breturn as $breturns) {
-              if ($breturns->breturn_count == 0) {
-                echo '0';
-              } else {
-                echo $breturns->breturn_count;
-              }
-            }
-            ?></h3>
+            <h3><?php echo $branch_return_count; ?></h3>
             <p>Branch Returns</p>
           </div>
           <div class="icon">

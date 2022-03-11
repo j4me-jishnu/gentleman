@@ -50,7 +50,7 @@ class Dashboard extends MY_Controller
         $template['reorder'] = $this->Dashboard_model->reOrderdetails2();
         $template['breorder'] = $this->Dashboard_model->breordercount2();
         $template['employee'] = $this->Dashboard_model->empcounts2();
-        $template['breturn'] = $this->Dashboard_model->breturncount2();
+        $template['branch_return_count'] = $this->Dashboard_model->branch_return_pending_count();
         $template['body'] = 'Dashboard/list2';
         $template['script'] = 'Dashboard/script2';
         $this->load->view('template', $template);

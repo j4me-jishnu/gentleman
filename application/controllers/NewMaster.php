@@ -1257,6 +1257,12 @@ class NewMaster extends MY_Controller {
 		$this->result['data'] = $this->NewCommonModel->get_branch_stock_from_master($param,$branch_id);
 	}
 
+	public function getCoreMasterStock(){
+		$branch_id = $this->branch_id;
+		$result=$this->NewCommonModel->get_master_stock_balances($branch_id);
+		echo json_encode($result); die;
+	}
+
 	public function __destruct(){
 		if(isset($this->result)){
 			echo json_encode($this->result);
