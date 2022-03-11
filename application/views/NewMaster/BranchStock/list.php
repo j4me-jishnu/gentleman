@@ -4,7 +4,7 @@
 
 		<h1>
 
-			Total Stock Details
+			Branch Stock Details
 
 		</h1>
 
@@ -14,14 +14,14 @@
 
 			<li><a href="<?php echo base_url();?>Employee/add"><i class="fa fa-dashboard"></i> Back to Add</a></li>
 
-			<li class="active">Total Stock Details</li>
+			<li class="active">Branch Stock Details</li>
 
 		</ol>
 
 	</section>
 
 	<section class="content">
-		
+
 		<div class="row">
 
 			<div class="box">
@@ -32,68 +32,35 @@
 							<div class="input-group-btn">
 								<button type="button" class="btn btn-primary nohover">Branch List</button>
 							</div><!-- /btn-group -->
-							<select name="branch_id" class="form-control" id="branch_id">
-								<option value="">Chertala</option>
+							<select name="branch_id" class="form-control" id="selectBranch">
+								<option value="">Choose branch</option>
+								<?php foreach ($branches as $branch): ?>
+									<option value="<?php echo $branch->branch_id; ?>"><?php echo $branch->branch_name; ?></option>
+								<?php endforeach; ?>
 							</select>
 						</div><!-- /input-group -->
 					</div>
 				</div>
 				<div class="box-header">
-
 					<input type="hidden" id="response" value="<?php echo $this->session->flashdata('response');?>" />
-
 					<!-- <div class="col-md-8"><h2 class="box-title"></h2> </div> -->
-
           <!-- <button type="button" onclick="addOpeningStock()" name="button" class="btn btn-success" style="float:right;">Request Item</button> -->
-
 				</div>
-
 				<div class="box-body table-responsive">
-
-					<table id="Branch_Opening_Stock" class="table table-bordered table-striped">
-
+					<table id="branchStockTable" class="table table-bordered table-striped">
 						<thead>
-
 							<tr>
-
 								<th>Sl no.</th>
-
-								<th>Branch Name</th>
-
 								<th>Item Name</th>
-
-								<th>Opening Stock</th>
-
-								<th>Requested From Master</th>
-
-								<th>Recieved From Branch</th>
-
-								<th>Total Stock</th>
-
-								<th>Given To Branch</th>
-
-								<th>Issued</th>
-
-								<th>Return To Master</th>
-
-								<th>Action</th>
-
+								<th>Stock Balance</th>
 							</tr>
-
 						</thead>
-
 						<tbody>
-
 						</tbody>
-
 					</table>
-
 				</div>
-
 			</div>
-
 		</div>
-
 	</section>
 
 </div>
@@ -170,10 +137,10 @@
 
     </div>
 
-</form>	
+</form>
 
   </div>
 
-</div> 
+</div>
 
   <!-- End Add Opening Stock -->

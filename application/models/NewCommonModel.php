@@ -15,7 +15,7 @@ class NewCommonModel extends CI_Model
 	public function insert_get_id($table,$data_array){
 		$query=$this->db->insert($table,$data_array);
 		$insert_id = $this->db->insert_id();
-   	return  $insert_id;
+		return  $insert_id;
 	}
 
 	public function add_data_where($table,$data_array,$condition){
@@ -134,9 +134,9 @@ class NewCommonModel extends CI_Model
 			return false;
 		}
 	}
-// ******************************************************************************************************************************
-// ******************************************************************************************************************************
-// this is the main stock updation function and this modifies the current stock from all branch items
+	// ******************************************************************************************************************************
+	// ******************************************************************************************************************************
+	// this is the main stock updation function and this modifies the current stock from all branch items
 	public function stockUpdate($branch_id,$item_id,$quantity,$operation){
 		$condition=[
 			'branch_id'=>$branch_id,
@@ -168,7 +168,7 @@ class NewCommonModel extends CI_Model
 			if($query){return true;}else{return false;}
 		}
 	}
-// to get current stock of an item in a branch
+	// to get current stock of an item in a branch
 	public function get_single_item_current_stock($master_branch,$item_id){
 		$condition=[
 			'branch_id'=>$master_branch,
@@ -185,7 +185,7 @@ class NewCommonModel extends CI_Model
 
 	// ***************************************************************************************************************************
 	// ***************************************************************************************************************************
-// supporting function to get master id for finding current balance
+	// supporting function to get master id for finding current balance
 	public function get_master_id(){
 		$condition=[
 			'user_name'=>'Admin',
@@ -194,7 +194,7 @@ class NewCommonModel extends CI_Model
 		$query=$this->db->select('id')->where($condition)->get('tbl_login');
 		return $query->row()->id;
 	}
-// to change status in ntbl_bs_stockrequests table status
+	// to change status in ntbl_bs_stockrequests table status
 	public function update_stock_request_status($condition,$update_array){
 		$query=$this->db->where($condition)->update('ntbl_bs_stockrequests',$update_array);
 		return $query ? true : false;
@@ -209,19 +209,14 @@ class NewCommonModel extends CI_Model
 			$purchase_stock = "0";
 			$purchase_return_stock = "0";
 		}
-
 		// $branch_id = $this->branch_id;
 		$query=$this->db->select('item_name,
 		COALESCE((SELECT SUM(COALESCE(os_stock_qty,0)) FROM ntbl_openingstock where ntbl_openingstock.os_item_id=ntbl_items.item_id and os_branch_id = "'.$branch_id.'"  ),0) as os_quantity,
 		COALESCE((SELECT SUM(COALESCE(return_quantity,0)) FROM ntbl_bs_returntomaster where ntbl_bs_returntomaster.return_item_id_fk=ntbl_items.item_id and is_approved=1  ),0) as return_qty,
 		'.$purchase_stock.' as purchase_qty,
 		'.$purchase_return_stock.' as pur_rtrn_qty,
-			COALESCE((SELECT SUM(COALESCE(req_item_quantity,0)) FROM ntbl_bs_stockrequests where ntbl_bs_stockrequests.req_item_id_fk=ntbl_items.item_id and req_status=1  ),0)  as req_item_quantity,
-			COALESCE((SELECT SUM(COALESCE(stock_balance,0)) FROM ntbl_stock_balances where ntbl_stock_balances.item_id=ntbl_items.item_id and ntbl_stock_balances.branch_id = "'.$branch_id.'"  ),0) as Total_qty')
-		// ->join('ntbl_purchase','ntbl_purchase.purchase_item_id_fk=ntbl_items.item_id',"left")
-		// ->join('ntbl_stock_balances','ntbl_stock_balances.item_id=ntbl_items.item_id and ntbl_stock_balances.branch_id = '.$branch_id,"left")
-		// ->join('ntbl_purchase_return','ntbl_purchase_return.pur_rtrn_item_id=ntbl_items.item_id',"left")
-		// ->where('branch_id',$master_branch)
+		COALESCE((SELECT SUM(COALESCE(req_item_quantity,0)) FROM ntbl_bs_stockrequests where ntbl_bs_stockrequests.req_item_id_fk=ntbl_items.item_id and req_status=1  ),0)  as req_item_quantity,
+		COALESCE((SELECT SUM(COALESCE(stock_balance,0)) FROM ntbl_stock_balances where ntbl_stock_balances.item_id=ntbl_items.item_id and ntbl_stock_balances.branch_id = "'.$branch_id.'"),0) as Total_qty')
 		->group_by('ntbl_items.item_id')
 		->get('ntbl_items');
 		return $query->result();
@@ -238,9 +233,35 @@ class NewCommonModel extends CI_Model
 		return $query->result();
 	}
 
+	public function get_branch_stock_from_master($param,$branch_id){
+		// $query=$this->db->select('*')
+		// ->join('ntbl_items','ntbl_items.item_id=ntbl_stock_balances.item_id')
+		// ->where('branch_id',$branch_id)
+		// ->get('ntbl_stock_balances');
+		// return $data['data'] = $query->result();
+
+		$arOrder = array('','item_name');
+		$searchValue =($param['searchValue'])?$param['searchValue']:'';
+		if($searchValue){
+			$this->db->like('item_name', $searchValue);
+		}
+		$this->db->where("status",1);
+		if ($param['start'] != 'false' and $param['length'] != 'false') {
+			$this->db->limit($param['length'],$param['start']);
+		}
+		$query=$this->db->select('*')
+		->join('ntbl_items','ntbl_items.item_id=ntbl_stock_balances.item_id')
+		->where('branch_id',$branch_id)
+		->get('ntbl_stock_balances');
+		$data['data'] = $query->result();
+		$data['recordsTotal'] = $query->num_rows();
+		$data['recordsFiltered'] = $query->num_rows();
+		return $data;
+	}
+
 	public function test(){
 		$sql="SELECT * FROM ntbl_stock_balances where 1";
 		$query = $this->db->query($sql);
-	 	var_dump($query->result_array());
+		var_dump($query->result_array());
 	}
 }

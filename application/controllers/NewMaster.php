@@ -1180,6 +1180,7 @@ public function editLoginUsersDetails($id)
 ///////////////Branch Stock////////////////
 public function showBranchStock()
 {
+	$template['branches']=$this->NewCommonModel->getAllBranches()['data'];
 	$template['body'] = 'NewMaster/BranchStock/list';
 	$template['script'] = 'NewMaster/BranchStock/script';
 	$this->load->view('template',$template);
@@ -1394,6 +1395,24 @@ public function test(){
 	$branch_id = $this->branch_id;
 	$result=$this->NewCommonModel->get_master_stock_balances($branch_id);
 	echo json_encode($result); die;
+}
+
+public function getBranchStockFromMaster(){
+	$branch_id=$_POST['branch_id'];
+	// $this->result=$this->NewCommonModel->get_branch_stock_from_master($branch_id);
+
+	$param['draw'] = (isset($_REQUEST['draw'])) ? $_REQUEST['draw'] : '';
+	$param['length'] = (isset($_REQUEST['length'])) ? $_REQUEST['length'] : '100';
+	$param['start'] = (isset($_REQUEST['start'])) ? $_REQUEST['start'] : '0';
+	$param['order'] = (isset($_REQUEST['order'][0]['column'])) ? $_REQUEST['order'][0]['column'] : '';
+	$param['dir'] = (isset($_REQUEST['order'][0]['dir'])) ? $_REQUEST['order'][0]['dir'] : '';
+	$param['searchValue'] = (isset($_REQUEST['search']['value'])) ? $_REQUEST['search']['value'] : '';
+
+	// $data = $this->Masterstock_model->getBranchTable2($param);
+	$this->result['data'] = $this->NewCommonModel->get_branch_stock_from_master($param,$branch_id);
+	// var_dump($data['data']);
+	// $json_data = json_encode($data['data']);
+	// echo $json_data;
 }
 
 public function __destruct(){

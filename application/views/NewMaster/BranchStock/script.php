@@ -1,182 +1,76 @@
 <script>
 
-    $(document).ready(function(){
-
-  $table = $('#Branch_Opening_Stock').DataTable( {
-
+$(document).ready(function(){
+  $('#selectBranch').on('change',function(){
+    branch_id=this.value;
+  // })
+  $table = $('#branchStockTable').DataTable( {
     "processing": true,
-
-    "serverSide": false,
-
+    "serverSide": true,
     "bDestroy" : true,
-
     dom: 'lBfrtip',
     aLengthMenu: [
         [100, 200, 300, 400, -1],
         [100, 200, 300, 400, "All"]
     ],
-
     buttons: [
-
       {
-
         extend: 'copy',
-
         exportOptions: {
-
-          columns: [ 1, 2, 3 , 4 ]
-
+          columns: [ 1, 2, 3  ]
         }
-
       },
-
       {
-
         extend: 'excel',
-
         exportOptions: {
-
-          columns: [ 1, 2, 3 , 4 ]
-
+          columns: [ 1, 2, 3  ]
         }
-
       },
-
       {
-
         extend: 'pdf',
-
         exportOptions: {
-
-          columns: [ 1, 2, 3 , 4 ]
-
+          columns: [ 1, 2, 3 ]
         }
-
       },
-
       {
-
         extend: 'print',
-
         exportOptions: {
-
-          columns: [ 1, 2, 3 , 4 ]
-
+          columns: [ 1, 2, 3]
         }
-
       },
-
       {
-
         extend: 'csv',
-
         exportOptions: {
-
-          columns: [ 1, 2, 3 , 4 ]
-
+          columns: [ 1, 2, 3 ]
         }
-
       },
-
     ],
-
     "ajax": {
-
-      "url": "<?php echo base_url();?>NewMaster/getBranchOpeningStocks/",
-      
-
-      //"url": "<?php echo base_url();?>Common/Test/",
-
+      "url": "<?php echo base_url();?>NewMaster/getBranchStockFromMaster/",
       "type": "POST",
-
-      "data" : function (d) {
-
-        //console.log(d);
-
+      data: {
+        branch_id:branch_id
+      },
+      success: function(response){
+        console.log(response);
       }
-
     },
-
     "createdRow": function ( row, data, index ) {
-
       $table.column(0).nodes().each(function(node,index,dt){
-
         $table.cell(node).data(index+1);
-
       });
+      // console.log(data.os_quantity);
 
-      console.log(data.os_quantity);
-
-    //   if(data['is_approved']==0){
-
-    //     $('td', row).eq(5).html('<center><button type="button" class="btn btn-warning">Pending</button></center>');
-
-    //   }
-
-    //   else if(data['is_approved']==1){
-
-    //     $('td', row).eq(5).html('<center><button type="button" class="btn btn-success">Approved</button></center>');
-
-    //   }
-
-    //   else{
-
-    //     $('td', row).eq(5).html('<center><button type="button" class="btn btn-danger">Rejected</button></center>');
-
-    //   }
-
-      $('td', row).eq(10).html('<center><a onclick="editrequestBtoBModal('+data['os_id']+')"><i class="fa fa-edit iconFontSize-medium" ></i></a>&nbsp;&nbsp;&nbsp;<a onclick="return confirmDelete('+data['os_id']+')"><i class="fa fa-trash-o iconFontSize-medium" ></i></a></center>');
-
+      // $('td', row).eq(10).html('<center><a onclick="editrequestBtoBModal('+data['os_id']+')"><i class="fa fa-edit iconFontSize-medium" ></i></a>&nbsp;&nbsp;&nbsp;<a onclick="return confirmDelete('+data['os_id']+')"><i class="fa fa-trash-o iconFontSize-medium" ></i></a></center>');
     },
-
-    // "columns": [
-
-    //   { "data": "item_name", "orderable": false },
-
-    //   { "data": "item_name", "orderable": false },
-
-    //   { "data": "os_quantity", "orderable": false },
-
-    //   { "data": "created_at", "orderable": false },
-
-    //   { "data": null, "defaultContent": "" },
-
-    // ]
-
-
-
     "columns": [
-
       { "data": "item_name", "orderable": false },
-
-      { "data": "branch_name", "orderable": false },
-
       { "data": "item_name", "orderable": false },
-
-      { "data": "os_quantity", "orderable": false },
-      
-      { "data": "branch_qty_sum", "orderable": false },
-
-      { "data": "brach_r_qty_sum", "orderable": false },
-      
-      { "data": "br_total_stck", "orderable": false },
-
-      { "data": "brach_g_qty_sum", "orderable": false },
-
-      { "data": "brach_issue_qty_sum", "orderable": false },
-
-      { "data": "branch_ret_qty_sum", "orderable": false },
-
-      
-
-      { "data": null, "defaultContent": "" },
-
+      { "data": "stock_balance", "orderable": false },
     ]
-
   } );
-
+});
 })
-
 function addOpeningStock()
 
 {

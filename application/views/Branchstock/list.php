@@ -106,4 +106,3 @@ foreach($items as $item){
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-
