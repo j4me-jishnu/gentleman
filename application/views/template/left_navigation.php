@@ -412,6 +412,7 @@ Left side column. contains the logo and sidebar
     <li class="<?php if($this->uri->segment(1)=="showReturntoMasterPage"){echo "active";}?>" ><a  href="<?php echo base_url(); ?>NewBranch/showEmployeesPage"><i class="fa fa-users"></i> <span>Employees</span></a></li>
     <!-- <li class="<?php if($this->uri->segment(1)=="ShowTotalStock"){echo "active";}?>" ><a  href="<?php echo base_url(); ?>Common/ShowTotalStock"><i class="fa fa-archive"></i> <span>New Total Stock</span></a></li> -->
     <li class="<?php if($this->uri->segment(1)=="showStockDetails"){echo "active";}?>" ><a  href="<?php echo base_url(); ?>NewBranch/showStockDetails"><i class="fa fa-archive"></i> <span>Stock Details</span></a></li>
+    <li class="<?php if($this->uri->segment(1)=="Change Password"){echo "active";}?>" ><a  href="<?php echo base_url(); ?>NewBranch/changeAccountPassword"><i class="fa fa-user-o"></i> <span>Change Password</span></a></li>
 <!-- ###################################################################################################################### -->
 
 

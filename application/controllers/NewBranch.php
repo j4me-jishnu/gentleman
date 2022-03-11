@@ -397,6 +397,12 @@ class NewBranch extends MY_Controller {
 		$this->result=$this->NewBranchModel->get_single_branch_stock_request($this->param,$branch_id);
 	}
 
+	public function changeAccountPassword(){
+		$template['body'] = 'NewBranch/ChangePassword/list';
+		$template['script'] = 'NewBranch/ChangePassword/script';
+		$this->load->view('template', $template);
+	}
+
 	public function __destruct(){
 		if(isset($this->result)){
 			echo json_encode($this->result);
