@@ -293,7 +293,10 @@ class NewBranch extends MY_Controller {
 			$response=$this->NewCommonModel->add_data('ntbl_bs_stockrequests',$insert_data);
 		}
 		if($response){
-			redirect('/NewMaster/showBranchItemRequestsPage');
+			$message="Request posted successfully!";
+			$this->session->set_flashdata('message',$message);
+			$this->session->set_flashdata('type',"success");
+			redirect('NewBranch/showStockRequestsPage', 'refresh');
 		}
 	}
 
