@@ -94,8 +94,7 @@ class NewMaster extends MY_Controller {
 
 
 	//////////////////Vendor///////////////////////////
-	public function showVendor()
-	{
+	public function showVendor(){
 		$template['body'] = 'NewMaster/Vendor/list';
 		$template['script'] = 'NewMaster/Vendor/script';
 		$this->load->view('template',$template);
@@ -227,7 +226,6 @@ class NewMaster extends MY_Controller {
 		{
 			$purchae_id = $this->params['pur_id'];
 			if(empty($purchae_id)){
-
 				$purchase_vendor=$this->params['v_list_id'];
 				$purchase_bill_number=$this->params['bill_no'];
 				$purchase_gst_no=$this->params['gst_no'];
