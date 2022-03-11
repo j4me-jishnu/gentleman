@@ -78,7 +78,6 @@
         </div>
 
         <div class="col-lg-3 col-xs-6">
-          <!-- small box -->
           <div class="small-box bg-red">
             <div class="inner">
               <h3>
@@ -99,7 +98,6 @@
           <a href="<?php echo base_url();?>Reordernotification/bshow" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
         </div>
         </div>
-
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-red">
@@ -158,67 +156,6 @@
           </div>
         </div>
         </div>
-        <!-- ./col -->
 		</div>
-
-		<div class="box">
-            <div class="box-header">
-              <h3 class="box-title">Users Deatils</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body table-responsive">
-              <table id="user_table" class="table table-bordered table-striped">
-                <thead>
-                <tr>
-				 <th>Slno</th>
-                  <th>Name</th>
-                  <th>Address</th>
-                  <th>Phone</th>
-                  <th>Email</th>
-                </tr>
-                </thead>
-                <tbody>
-                </tbody>
-              </table>
-			</div>
-            <!-- /.box-body -->
-		</div>
-		<div class="box">
-            <div class="box-header with-border">
-              <h3 class="box-title">Branch Details</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-				<table class="table table-bordered">
-                <tr>
-                  <th>Si</th>
-                  <th>ID</th>
-                  <th>Name</th>
-                  <th>Address</th>
-				  <th>Phone</th>
-				  <th>Email</th>
-                </tr>
-				<?php $i=1; foreach ($brns as $row)
-					{ ?>
-				<tr>
-				<td><?php echo $i;?></td>
-				<td><?php echo $row->br_id; ?></td>
-				<td><?php echo $row->branch_name; ?></td>
-				<td><?php echo $row->branch_address; ?></td>
-				<td><?php echo $row->branch_phone; ?></td>
-				<td><?php echo $row->branch_email; ?></td>
-				</tr>
-                <?php $i++; } ?>
-				</table>
-			</div>
-            <!-- /.box-body
-            <div class="box-footer clearfix">
-              <ul class="pagination pagination-sm no-margin pull-right">
-                <li><a href="<?php echo base_url();?>branch">View Details</a></li>
-              </ul>
-            </div>-->
-	    </div>
 	</section>
-    <!-- /.content -->
   </div>
-  <!-- /.content-wrapper -->
