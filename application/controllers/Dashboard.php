@@ -3,60 +3,54 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Dashboard extends MY_Controller
 {
     public $page  = 'Dashboard';
-    public function __construct()
-    {
+    public function __construct(){
         parent::__construct();
         if (!$this->is_logged_in()) {
             redirect('/login');
-
             $this->load->helper('url');
             $this->load->helper('file');
             $this->load->helper('download');
             $this->load->library('zip');
         }
-
         $this->load->model('Dashboard_model');
+        $this->load->model('NewCommonModel');
+        if(isset($_POST)){
+    			$this->params=$_POST;
+    		}
+    		if(isset($_REQUEST)){
+    			$this->param['draw'] = (isset($_REQUEST['draw']))?$_REQUEST['draw']:'';
+    			$this->param['length'] =(isset($_REQUEST['length']))?$_REQUEST['length']:'10';
+    			$this->param['start'] = (isset($_REQUEST['start']))?$_REQUEST['start']:'0';
+    			$this->param['order'] = (isset($_REQUEST['order'][0]['column']))?$_REQUEST['order'][0]['column']:'';
+    			$this->param['dir'] = (isset($_REQUEST['order'][0]['dir']))?$_REQUEST['order'][0]['dir']:'';
+    			$this->param['searchValue'] =(isset($_REQUEST['search']['value']))?$_REQUEST['search']['value']:'';
+    		}
+    		date_default_timezone_set("Asia/Kolkata");
+    		if(!empty($this->session->userdata('user_branch'))){
+    			$this->branch_name=$this->session->userdata('user_branch');
+    			$this->branch_id=$this->NewCommonModel->getBranchID($this->branch_name);
+    		}
     }
     public function index() {
-
-        // print_r($this->session->userdata());
-        // exit();
         $template['total_users'] = $this->Dashboard_model->gettotal_users();
         $template['return_request'] = $this->Dashboard_model->gettotal_return();
-        // $template['brtobr'] = $this->Dashboard_model->gettotal_brtobr();
-        // $template['branch_stock'] = $this->Dashboard_model->getBranchstock();
-        // $template['pending_purchase'] = $this->Dashboard_model->get_purchasepending();
-
-
-        // $template['pending_purchase_dashboard'] = $this->Dashboard_model->get_purchasepending_dashboard();
-        //	$template['stock_benchmark'] = $this->Dashboard_model->get_stock_benchmark();
-        // $template['productrequest'] = $this->Dashboard_model->gettotal_requests();
-        //$template['total_stock'] = $this->Dashboard_model->gettotal_stock();
         $template['purchase_orders'] = $this->Dashboard_model->getPuchaseOder();
         $template['rop'] = $this->Dashboard_model->get_rop();
         $template['Puchase_Request'] = $this->Dashboard_model->getPuchaseRequest();
         $template['Puchase_delivery'] = $this->Dashboard_model->getPuchaseDelivery();
-        //$template['designation'] = $this->Dashboard_model->getDesignation();
-        // $template['product'] = $this->Dashboard_model->getPoducts();
-        // $template['branch'] = $this->Dashboard_model->getBranch();
-        // $template['categorys'] = $this->Dashboard_model->getCategorys();
-        // $template['vendors'] = $this->Dashboard_model->getVendors();
         $template['brns'] = $this->Dashboard_model->getallBranch();
-        // $template['reorder'] = $this->reOrderdetails();
-        // $template['breorder'] = $this->breordercount();
-        //$template['total_users'] = $this->Dashboard_model->gettotal_users2();
         $template['designation'] = $this->Dashboard_model->getDesignation2();
         $template['product'] = $this->Dashboard_model->getPoducts2();
         $template['brtobr'] = $this->Dashboard_model->gettotal_brtobr2();
         $template['productrequest'] = $this->Dashboard_model->gettotal_requests2();
         $template['branch'] = $this->Dashboard_model->getBranch2();
-        $template['total_stock'] = $this->Dashboard_model->gettotal_stock2();
+        $template['total_stock'] = $this->Dashboard_model->gettotal_stock2($this->branch_id);
         $template['categorys'] = $this->Dashboard_model->getCategorys2();
         $template['vendors'] = $this->Dashboard_model->getVendors2();
         $template['reorder'] = $this->Dashboard_model->reOrderdetails2();
         $template['breorder'] = $this->Dashboard_model->breordercount2();
         $template['employee'] = $this->Dashboard_model->empcounts2();
-        $template['breturn'] = $this->Dashboard_model->breturncount2();
+        $template['branch_return_count'] = $this->Dashboard_model->branch_return_pending_count();
         $template['body'] = 'Dashboard/list2';
         $template['script'] = 'Dashboard/script2';
         $this->load->view('template', $template);
@@ -72,8 +66,6 @@ class Dashboard extends MY_Controller
         $param['searchValue'] = (isset($_REQUEST['search']['value'])) ? $_REQUEST['search']['value'] : '';
         $data = $this->Masterstock_model->getStockTable($param);
         $bstock = $this->Masterstock_model->getBstock();
-        //$bstock =$this->Masterstock_model->getopstock();
-
         for ($i = 0; $i < count($data['data']); $i++) {
             $tot = 0;
             for ($j = 0; $j < count($bstock['data']); $j++) {
@@ -83,12 +75,8 @@ class Dashboard extends MY_Controller
                 }
             }
             $data['data'][$i]->btotal = $tot;
-            // echo $data['data'][$i]['item_id_fk'];
-            // exit();
             $issued = $this->Masterstock_model->get_issued($data['data'][$i]->item_id_fk);
             $request = $this->Masterstock_model->get_request($data['data'][$i]->item_id_fk);
-            // print_r($issued[0]->issued);
-            // exit();
             $data['data'][$i]->requestquantity = $request[0]->request;
             $data['data'][$i]->issuedquantity = $issued[0]->issued;
             $data['data'][$i]->t_quantity = $data['data'][$i]->opening_stock + $data['data'][$i]->purchase_quantity - $issued[0]->issued - $issued[0]->issued - $request[0]->request;
@@ -125,7 +113,6 @@ class Dashboard extends MY_Controller
             for ($j = 0; $j < count($bstock['data']); $j++) {
                 if ($data['data'][$i]->item_id_fk == $bstock['data'][$j]->iid  && $data['data'][$i]->shop_id_fk == $bstock['data'][$j]->br_id) {
                     $uqty = $bstock['data'][$j]->used_quantity;
-                    //$data['data'][$i]->used_qty=$bstock['data'][$i]->used_quantity;
                     break;
                 }
             }
@@ -186,35 +173,9 @@ class Dashboard extends MY_Controller
             $remaining = $data['data'][$i]->total;
             $rop = $data['data'][$i]->item_rop;
             if ($remaining <= $rop) {
-                // $data1['data'][$j]=$data['data'][$i];
                 $j = $j + 1;
             }
-
-            // echo $remaining;echo '         ';echo $rop;echo"<br>";
         }
         return $j;
     }
-    // public function get(){
-    // $this->load->model('Dashboard_model');
-    // $param['draw'] = (isset($_REQUEST['draw']))?$_REQUEST['draw']:'';
-    // $param['length'] =(isset($_REQUEST['length']))?$_REQUEST['length']:'10';
-    // $param['start'] = (isset($_REQUEST['start']))?$_REQUEST['start']:'0';
-    // $param['order'] = (isset($_REQUEST['order'][0]['column']))?$_REQUEST['order'][0]['column']:'';
-    // $param['dir'] = (isset($_REQUEST['order'][0]['dir']))?$_REQUEST['order'][0]['dir']:'';
-    // $param['searchValue'] =(isset($_REQUEST['search']['value']))?$_REQUEST['search']['value']:'';
-    // $param['product_name'] =(isset($_REQUEST['product_name']))?$_REQUEST['product_name']:'';
-    // $data = $this->Dashboard_model->getoldstock($param);
-    // $json_data = json_encode($data);
-    // echo $json_data;
-    // }
-    // public function database_backup()
-    // {
-    // $this->load->dbutil();
-    // $db_format=array('format'=>'zip','filename'=>'wh_erp.sql');
-    // $backup= $this->dbutil->backup($db_format);
-    // $dbname='backup-on-'.date('Y-m-d').'.zip';
-    // $save='assets/db_backup/'.$dbname;
-    // write_file($save,$backup);
-    // force_download($dbname,$backup);
-    // }
 }

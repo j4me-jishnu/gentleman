@@ -25,7 +25,7 @@ Class Dashboard_model extends CI_Model{
     	return $query->result();
 	}
 
-	public function gettotal_stock2(){
+	public function gettotal_stock2($branch_id){
 		// $this->db->select('SUM(COALESCE(os_quantity,0) + COALESCE(return_qty,0) + COALESCE(purchase_qty,0) - COALESCE(req_item_quantity,0) - COALESCE(pur_rtrn_qty,0)) AS Total_qty');
 		// $this->db->join('(SELECT os_item_id_fk,os_quantity FROM ntbl_master_os where os_status = 1) mstr_os','mstr_os.os_item_id_fk=ntbl_items.item_id','left');
 		// $this->db->join('(SELECT return_item_id_fk,SUM(return_quantity) AS return_qty FROM ntbl_bs_returntomaster where is_approved = 1 GROUP BY return_item_id_fk) return_to_master','return_to_master.return_item_id_fk=ntbl_items.item_id','left');
@@ -37,7 +37,7 @@ Class Dashboard_model extends CI_Model{
 		// $this->db->where('item_status',1);
 		// $query = $this->db->get();
 		// return $data['data'] = $query->result();
-		$query=$this->db->select_sum('stock_balance')->get('ntbl_stock_balances');
+		$query=$this->db->select_sum('stock_balance')->where('branch_id',$branch_id)->get('ntbl_stock_balances');
 		return $query->row()->stock_balance;
 	}
 
@@ -130,13 +130,9 @@ Class Dashboard_model extends CI_Model{
     	return $query->result();
 	}
 
-	public function breturncount2(){
-		$this->db->select('count(return_id)as breturn_count');
-		$this->db->from('ntbl_bs_returntomaster');
-		$this->db->where("is_approved",1);
-
-        $query = $this->db->get();
-    	return $query->result();
+	public function branch_return_pending_count(){
+		$query=$this->db->select('return_quantity')->get('ntbl_bs_returntomaster');
+		return $query->num_rows();
 	}
 
 	public function getPuchaseRequest(){

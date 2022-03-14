@@ -43,8 +43,7 @@ class Main extends MY_Controller {
 		$this->load->view('template',$template);
 	}
 
-	public function addOS()
-	{
+	public function addOS(){
 		print_r($_POST);die;	
 	}
 }

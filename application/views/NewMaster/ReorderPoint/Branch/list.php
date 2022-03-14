@@ -24,7 +24,7 @@
 				<div class="col-md-2">
           <?php $u = $this->session->userdata('user_type');
            if($u == 'A'){ ?>
-                  <a href="<?php echo base_url();?>NewMaster/addROPbranchList" class="btn btn-primary"><i class="fa fa-plus-square"></i>  Add ROP Master</a>
+                  <a href="<?php echo base_url();?>NewMaster/addROPbranchList" class="btn btn-primary"><i class="fa fa-plus-square"></i>  Add Branch ROP</a>
                 <?php } ?>
 				</div>
             </div>
@@ -49,7 +49,7 @@
           </div>
           <!-- /.box -->
 
-         
+
      </div>
 
     </section>

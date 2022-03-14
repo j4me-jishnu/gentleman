@@ -191,8 +191,8 @@ class NewCommonModel extends CI_Model
 			'user_name'=>'Admin',
 			'user_type'=>'A'
 		];
-		$query=$this->db->select('id')->where($condition)->get('tbl_login');
-		return $query->row()->id;
+		$query=$this->db->select('branch_id')->join('ntbl_branches','ntbl_branches.branch_name=tbl_login.user_branch')->where($condition)->get('tbl_login');
+		return $query->row()->branch_id;
 	}
 	// to change status in ntbl_bs_stockrequests table status
 	public function update_stock_request_status($condition,$update_array){

@@ -5,7 +5,6 @@
   <section class="content-header">
     <h1>
       Vendor Details
-      <!-- <small>Optional description</small> -->
     </h1>
     <ol class="breadcrumb">
       <li><a href="<?php echo base_url();?>dashboard/"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -42,14 +41,14 @@
                   <input type="text" data-pms-required=""  class="form-control" name="v_name" id="designation" placeholder="Vendor Name" value="<?php if(isset($records->designation)) echo $records->designation ?>">
                 </div>
               </div>
-              <div class="form-group">  
+              <div class="form-group">
                 <label for="description" class="col-sm-1 control-label">Address</label>
 
                 <div class="col-sm-6">
                   <textarea class="form-control" placeholder="Enter Address" name="v_address"><?php if(isset($records->description)) echo $records->description ?></textarea>
                 </div>
               </div>
-             
+
               <div class="form-group">
                 <label for="size_name" class="col-sm-1 control-label">Email<span style="color:red">*</span></label>
 

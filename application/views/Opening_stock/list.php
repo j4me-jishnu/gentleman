@@ -66,6 +66,25 @@
                 </div>
                 <div class="col-md-4">
                   <label>Quantity</label>
+
+            <div class="row">
+              <div class="col-md-1">
+                  <label>Select</label>
+                </div>
+                <div class="col-md-2">
+                  <label>Item List</label>
+                </div>
+                <div class="col-md-2">
+                  <label>Purchase Qty</label>
+                </div>
+                <div class="col-md-2">
+                  <label>Purchase Price</label>
+                </div>
+                <div class="col-md-2">
+                  <label>Purchase Tax</label>
+                </div>
+                <div class="col-md-2">
+                  <label>Total</label>
                 </div>
               </div>
               <input type="hidden" name="counter" id="counter" value="0">

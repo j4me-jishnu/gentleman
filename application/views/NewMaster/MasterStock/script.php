@@ -118,7 +118,7 @@ $(function () {
 
     "ajax": {
 
-      "url": "<?php echo base_url();?>NewMaster/test/",
+      "url": "<?php echo base_url();?>NewMaster/getCoreMasterStock/",
       // "url": "<?php echo base_url();?>NewMaster/getMasterStockList/",
 
       'dataSrc':"",

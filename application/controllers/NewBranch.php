@@ -293,7 +293,10 @@ class NewBranch extends MY_Controller {
 			$response=$this->NewCommonModel->add_data('ntbl_bs_stockrequests',$insert_data);
 		}
 		if($response){
-			redirect('/NewMaster/showBranchItemRequestsPage');
+			$message="Request posted successfully!";
+			$this->session->set_flashdata('message',$message);
+			$this->session->set_flashdata('type',"success");
+			redirect('NewBranch/showStockRequestsPage', 'refresh');
 		}
 	}
 
@@ -392,6 +395,12 @@ class NewBranch extends MY_Controller {
 	public function getBranchStockRequests(){
 		$branch_id=$this->branch_id;
 		$this->result=$this->NewBranchModel->get_single_branch_stock_request($this->param,$branch_id);
+	}
+
+	public function changeAccountPassword(){
+		$template['body'] = 'NewBranch/ChangePassword/list';
+		$template['script'] = 'NewBranch/ChangePassword/script';
+		$this->load->view('template', $template);
 	}
 
 	public function __destruct(){

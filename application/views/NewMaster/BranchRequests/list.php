@@ -36,16 +36,12 @@ if($this->session->flashdata('message')!=NULL){
 					<input type="hidden" id="response" value="<?php echo $this->session->flashdata('response');?>" />
 
 					<div class="col-md-8"><h2 class="box-title"></h2> </div>
-
-          <button type="button" id="requestBtn" name="button" class="btn btn-success" onclick="showAddRequestModal();" style="float:right;">Request Item</button>
-
-
-
 				</div>
 
 				<div class="box-body table-responsive">
 
 					<table id="requestTable" class="table table-bordered table-striped">
+
 
 						<thead>
 
