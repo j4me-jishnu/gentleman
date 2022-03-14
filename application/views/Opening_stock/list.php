@@ -56,6 +56,16 @@
             <!-- /.box-header -->
 
             <div class="box-body table-responsive">
+            <form action="<?php echo base_url() ?>Main/addOS" method="POST">
+            <div class="row">
+              <div class="col-md-1">
+                <label>Select</label>
+                </div>
+                <div class="col-md-4">
+                  <label>Item Name</label>
+                </div>
+                <div class="col-md-4">
+                  <label>Quantity</label>
 
             <div class="row">
               <div class="col-md-1">
@@ -81,9 +91,9 @@
               <DIV id="service" class="box-body no-padding" ></div>
             <i class="fa fa-fw fa-plus-square fa-2x" onClick="addMore();" Style="color:green;"></i>
             <i class="fa fa-fw fa-minus-square pull-right fa-2x" onClick="deleteRow();" Style="color:red;"></i>
-
-
-
+            <br><br><br><br>
+            <input type="submit" value="SUBMIT" class="btn btn-success btn-sm">
+            </form>
             </div>
 
             <!-- /.box-body -->

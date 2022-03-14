@@ -42,5 +42,9 @@ class Main extends MY_Controller {
 		$template['script'] = 'Opening_stock/script';
 		$this->load->view('template',$template);
 	}
+
+	public function addOS(){
+		print_r($_POST);die;	
+	}
 }
 ?>
