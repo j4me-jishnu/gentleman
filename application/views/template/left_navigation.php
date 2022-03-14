@@ -7,8 +7,9 @@ Left side column. contains the logo and sidebar
     <ul class="sidebar-menu" id="navi">
       <!--<li class="header"></li>-->
       <!-- Optionally, you can add icons to the links -->
+      <li class="<?php if($this->uri->segment(1)=="addOpeningStock"){echo "active";}?>" ><a  href="<?php echo base_url();?>Main/addOpeningStock"><i class="fa fa-dashboard"></i> <span>Add Opening Stock</span></a></li>
       <?php $u = $this->session->userdata('user_type');$d = $this->session->userdata('designation');
-
+      
       if( $u== "A") {?>
         <li class="<?php if($this->uri->segment(1)=="dashboard"){echo "active";}?>" ><a  href="<?php echo base_url();?>Dashboard"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
 
@@ -412,6 +413,7 @@ Left side column. contains the logo and sidebar
     <li class="<?php if($this->uri->segment(1)=="showReturntoMasterPage"){echo "active";}?>" ><a  href="<?php echo base_url(); ?>NewBranch/showEmployeesPage"><i class="fa fa-users"></i> <span>Employees</span></a></li>
     <!-- <li class="<?php if($this->uri->segment(1)=="ShowTotalStock"){echo "active";}?>" ><a  href="<?php echo base_url(); ?>Common/ShowTotalStock"><i class="fa fa-archive"></i> <span>New Total Stock</span></a></li> -->
     <li class="<?php if($this->uri->segment(1)=="showStockDetails"){echo "active";}?>" ><a  href="<?php echo base_url(); ?>NewBranch/showStockDetails"><i class="fa fa-archive"></i> <span>Stock Details</span></a></li>
+    <li class="<?php if($this->uri->segment(1)=="Change Password"){echo "active";}?>" ><a  href="<?php echo base_url(); ?>NewBranch/changeAccountPassword"><i class="fa fa-user-o"></i> <span>Change Password</span></a></li>
 <!-- ###################################################################################################################### -->
 
 
