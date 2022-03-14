@@ -35,5 +35,12 @@ class Main extends MY_Controller {
 	public function getOpeningStockDetails(){
 	}
 
+
+	public function addOpeningStock()
+	{
+		$template['body'] = 'Opening_stock/list';
+		$template['script'] = 'Opening_stock/script';
+		$this->load->view('template',$template);
+	}
 }
 ?>
