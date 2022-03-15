@@ -17,6 +17,19 @@
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
 
+          <div class="small-box bg-blue">
+            <div class="inner">
+              <h3><?php if(!empty($total_branch_stock)){echo $total_branch_stock;}else{ echo 0; } ?></h3>
+              <p>Total stock</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-database"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+
           <div class="small-box bg-green">
             <div class="inner">
               <h3><?php foreach ($items_Issued as $issue){
@@ -30,7 +43,7 @@
               <p>Items Issued</p>
             </div>
             <div class="icon">
-              <i class="ion ion-stats-bars"></i>
+              <i class="fa fa-share"></i>
             </div>
           </div>
         </div>
@@ -61,24 +74,17 @@
           <!-- small box -->
           <div class="small-box bg-red">
             <div class="inner">
-              <h3 ><?php foreach ($stock_items as $stock_itemss){
-                    if($stock_itemss->br_total_stck == 0){
-                      echo '0';
-                    }
-                    else{
-                      echo $stock_itemss->br_total_stck;
-                    }
-                  } ?></h3>
-              <p>Items InStock</p>
+              <h3 ><?php if($emp_count>0){ echo $emp_count; } else{ echo 0; } ?></h3>
+              <p>Employees Count</p>
             </div>
             <div class="icon">
-              <i class="ion ion-pie-graph"></i>
+              <i class="fa fa-users"></i>
             </div>
           </div>
         </div>
 
         <div class="col-lg-3 col-xs-6">
-          <div class="small-box bg-red">
+          <div class="small-box bg-orange">
             <div class="inner">
               <h3>
               <?php foreach ($breorder as $breorders){
@@ -98,27 +104,7 @@
           <a href="<?php echo base_url();?>Reordernotification/bshow" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
         </div>
         </div>
-        <div class="col-lg-3 col-xs-6">
-          <!-- small box -->
-          <div class="small-box bg-red">
-            <div class="inner">
-              <h3>
-              <?php foreach ($emp_count as $emp_counts){
-                    if($emp_counts->emp_id == 0){
-                      echo '0';
-                    }
-                    else{
-                      echo $emp_counts->emp_id;
-                    }
-                  } ?>
-              </h3>
-              <p>Employee Count</p>
-            </div>
-            <div class="icon">
-            <i class="fa fa-cube"></i>
-          </div>
-        </div>
-        </div>
+
 
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
@@ -137,22 +123,22 @@
               <p>Branch to Branch Count</p>
             </div>
             <div class="icon">
-            <i class="fa fa-cube"></i>
+            <i class="fa fa-arrows-alt"></i>
           </div>
         </div>
         </div>
 
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
-          <div class="small-box bg-green">
+          <div class="small-box bg-blue">
             <div class="inner">
               <h3>
-              <?php echo $branch_return_count; ?>
+              <?php if(!empty($branch_return_count)){ echo $branch_return_count; } else { echo 0; } ?>
               </h3>
               <p>Branch Return to Master</p>
             </div>
             <div class="icon">
-            <i class="fa fa-cube"></i>
+            <i class="fa fa-backward"></i>
           </div>
         </div>
         </div>

@@ -234,12 +234,6 @@ class NewCommonModel extends CI_Model
 	}
 
 	public function get_branch_stock_from_master($param,$branch_id){
-		// $query=$this->db->select('*')
-		// ->join('ntbl_items','ntbl_items.item_id=ntbl_stock_balances.item_id')
-		// ->where('branch_id',$branch_id)
-		// ->get('ntbl_stock_balances');
-		// return $data['data'] = $query->result();
-
 		$arOrder = array('','item_name');
 		$searchValue =($param['searchValue'])?$param['searchValue']:'';
 		if($searchValue){
@@ -257,6 +251,58 @@ class NewCommonModel extends CI_Model
 		$data['recordsTotal'] = $query->num_rows();
 		$data['recordsFiltered'] = $query->num_rows();
 		return $data;
+	}
+
+	public function check_existance_status($item_name,$branch_id){
+		$query=$this->db->select("item_id")->where('TRIM(item_name)',trim($item_name))->get('ntbl_items');
+		if($query->num_rows()>0){
+			$item_id=$query->row()->item_id;
+			$query1=$this->db->select('*')
+			->where('branch_id',$branch_id)
+			->where('item_id',$item_id)
+			->get('ntbl_stock_balances');
+			if($query1->num_rows()>0){
+				return $query1->result();
+			}
+			else{
+				// item existing in items but not in stock balance table
+				return false;
+			}
+		}
+		else{
+			$result['status']=false;
+			$result['message']="Item Not existing in items table";
+			// item not existing
+			return $result;
+		}
+	}
+
+	public function check_item_table_status($item_name){
+		$query=$this->db->select("item_id")->where('TRIM(item_name)',trim($item_name))->get('ntbl_items');
+		if($query->num_rows()>0){
+			$result['status']=true;
+			$result['id']=$query->row()->item_id;
+			$result['message']="Item exists";
+		}
+		else{
+			$result['status']=false;
+			$result['message']="Item not exists";
+		}
+		return $result;
+	}
+
+	public function check_stocktable_status($item_id,$branch_id){
+		$query=$this->db->select('*')->where('branch_id',$branch_id)->where('item_id',$item_id)->get('ntbl_stock_balances');
+		if($query->num_rows()>0){
+			$result['status']=true;
+			$result['id']=$query->row()->id;
+			$result['message']="Stock table contains data";
+		}
+		else{
+			$result['status']=false;
+			$result['message']="No records found!";
+		}
+		return $result;
 	}
 
 	public function test(){

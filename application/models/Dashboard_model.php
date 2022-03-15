@@ -26,17 +26,6 @@ Class Dashboard_model extends CI_Model{
 	}
 
 	public function gettotal_stock2($branch_id){
-		// $this->db->select('SUM(COALESCE(os_quantity,0) + COALESCE(return_qty,0) + COALESCE(purchase_qty,0) - COALESCE(req_item_quantity,0) - COALESCE(pur_rtrn_qty,0)) AS Total_qty');
-		// $this->db->join('(SELECT os_item_id_fk,os_quantity FROM ntbl_master_os where os_status = 1) mstr_os','mstr_os.os_item_id_fk=ntbl_items.item_id','left');
-		// $this->db->join('(SELECT return_item_id_fk,SUM(return_quantity) AS return_qty FROM ntbl_bs_returntomaster where is_approved = 1 GROUP BY return_item_id_fk) return_to_master','return_to_master.return_item_id_fk=ntbl_items.item_id','left');
-		// $this->db->join('(SELECT purchase_item_id_fk,SUM(purchase_qty) AS purchase_qty FROM ntbl_purchase where purchase_status = 1 GROUP BY purchase_item_id_fk) mstr_purchase','mstr_purchase.purchase_item_id_fk=ntbl_items.item_id','left');
-		// $this->db->join('(SELECT pur_rtrn_item_id,SUM(pur_rtrn_qty) AS pur_rtrn_qty FROM ntbl_purchase_return where pur_rtrn_status = 1 GROUP BY pur_rtrn_item_id) mstr_purchase_rtn','mstr_purchase_rtn.pur_rtrn_item_id=ntbl_items.item_id','left');
-		// //$this->db->join('(SELECT btob_item_id_fk,SUM(btob_quantity) AS btob_quantity FROM ntbl_bs_branchtobranch where is_approved = 1 GROUP BY btob_item_id_fk) mstr_given','mstr_given.btob_item_id_fk=ntbl_items.item_id','left');
-		// $this->db->join('(SELECT req_item_id_fk,SUM(req_item_quantity) AS req_item_quantity FROM ntbl_bs_stockrequests where req_status = 1 GROUP BY req_item_id_fk) mstr_given','mstr_given.req_item_id_fk=ntbl_items.item_id','left');
-		// $this->db->from('ntbl_items');
-		// $this->db->where('item_status',1);
-		// $query = $this->db->get();
-		// return $data['data'] = $query->result();
 		$query=$this->db->select_sum('stock_balance')->where('branch_id',$branch_id)->get('ntbl_stock_balances');
 		return $query->row()->stock_balance;
 	}

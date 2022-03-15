@@ -141,13 +141,9 @@ Class Dash_board_model extends CI_Model{
 		return $data['data'] = $query->result_array();
 	}
 
-	public function getempCount($branch_name)
-	{
-		$this->db->select('COUNT(emp_id) AS emp_id');
-		$this->db->from('ntbl_branch_employees');
-		$this->db->where('branch_name',$branch_name);
-		$query = $this->db->get();
-		return $query->result();
+	public function getempCount($branch_name){
+		$query=$this->db->select('emp_id')->where('branch_name',$branch_name)->get('ntbl_branch_employees');
+		return $query->num_rows();
 	}
 
 	public function getBtoblist($branch_id)

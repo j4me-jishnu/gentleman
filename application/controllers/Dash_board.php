@@ -13,7 +13,25 @@ class Dash_board extends MY_Controller {
 			$this->load->library('zip');
 		}
 		$this->load->model('Dash_board_model');
+		$this->load->model('Dashboard_model');
 		$this->load->model('Stock_model');
+		$this->load->model('NewCommonModel');
+		if(isset($_POST)){
+			$this->params=$_POST;
+		}
+		if(isset($_REQUEST)){
+			$this->param['draw'] = (isset($_REQUEST['draw']))?$_REQUEST['draw']:'';
+			$this->param['length'] =(isset($_REQUEST['length']))?$_REQUEST['length']:'10';
+			$this->param['start'] = (isset($_REQUEST['start']))?$_REQUEST['start']:'0';
+			$this->param['order'] = (isset($_REQUEST['order'][0]['column']))?$_REQUEST['order'][0]['column']:'';
+			$this->param['dir'] = (isset($_REQUEST['order'][0]['dir']))?$_REQUEST['order'][0]['dir']:'';
+			$this->param['searchValue'] =(isset($_REQUEST['search']['value']))?$_REQUEST['search']['value']:'';
+		}
+		date_default_timezone_set("Asia/Kolkata");
+		if(!empty($this->session->userdata('user_branch'))){
+			$this->branch_name=$this->session->userdata('user_branch');
+			$this->branch_id=$this->NewCommonModel->getBranchID($this->branch_name);
+		}
 	}
 	public function index(){
 		$branch_name = $this->session->userdata('user_branch');
@@ -22,12 +40,14 @@ class Dash_board extends MY_Controller {
 		$template['total_users'] = $this->Dash_board_model->gettotal_users($branch_id);
 		$template['Puchase_delivery'] = $this->Dash_board_model->getPuchaseDelivery($branch_id);
 		$template['items_Issued'] = $this->Dash_board_model->getIssued2($branch_id);
-		$template['stock_items']=$this->Dash_board_model->stockItemslist($branch_id);
+		// $template['stock_items']=$this->Dash_board_model->stockItemslist($branch_id);
 		$template['breorder']=$this->Dash_board_model->getBranchRopCount($branch_id);
 		$template['emp_count']=$this->Dash_board_model->getempCount($branch_name);
+		// var_dump($template['emp_count']); die;
 		$template['btob_count']=$this->Dash_board_model->getBtoblist($branch_name);
 		$template['branch_return_count']=$this->Dash_board_model->get_branch_return_to_master_count($branch_id);
 		$template['brns'] = $this->Dash_board_model->getallBranch();
+		$template['total_branch_stock'] = $this->Dashboard_model->gettotal_stock2($this->branch_id);
 		$template['body'] = 'Dashboard1/list';
 		$template['script'] = 'Dashboard1/script';
 		$this->load->view('template', $template);

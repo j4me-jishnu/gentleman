@@ -101,40 +101,7 @@
     </div>
   </div>
 </div>
-<!-- <div class="modal fade" id="addItem" tabindex="-1">
-<div class="modal-dialog">
-<div class="modal-content">
-<div class="modal-header">
-<h5 class="modal-title">Add New Item</h5>
-<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-<span aria-hidden="true">&times;</span>
-</button>
-</div>
-<div class="modal-body">
-<form  action="<?php echo base_url() ?>NewMaster/addNewItem" method="post">
-<div class="form-group">
-<label for="cate_id" class="form-label">Category Name</label>
-<select name="cate_id" class="form-control" id="cate_id">
-<option value="">SELECT</option>
-<?php foreach($category_list as $cate_lists){ ?>
-<option value="<?php echo $cate_lists->cate_id ?>"><?php echo $cate_lists->cate_name ?></option>
-<?php } ?>
-</select>
-</div><br>
-<div class="form-group">
-<!-- <label for="inputEmail" class="col-sm-4 col-form-label">Item Name</label> -->
-<input type="text" placeholder="Enter Item Name" name="item_name" class="form-control" required>
-</div><br>
-<div class="form-group">
-  <!-- <label for="inputEmail" class="col-sm-4 col-form-label">Item Name</label> -->
-  <input type="text" placeholder="Enter Item Quantity" name="item_qty" class="form-control" required>
-</div><br>
-</div>
-<div class="modal-footer">
-  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-  <button type="submit" class="btn btn-primary">Add</button>
-</div>
-</form>
+
 </div>
 </div>
-</div> -->
+</div>

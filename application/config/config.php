@@ -24,7 +24,7 @@ date_default_timezone_set('Asia/Kolkata');
 |
 */
  // $config['base_url'] = 'https://wahylab.com/gen/';
-$config['base_url'] = 'http://localhost/gentleman4/';
+$config['base_url'] = 'http://localhost/gentleman/';
 
 /*
 |--------------------------------------------------------------------------

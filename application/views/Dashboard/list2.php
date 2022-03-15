@@ -58,7 +58,7 @@
           </div> -->
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
-          <div class="small-box bg-green">
+          <div class="small-box bg-blue">
             <div class="inner">
               <h3><?php foreach ($designation as $designations) {
                 if ($designations->designation == 0) {
@@ -69,10 +69,10 @@
               }
               ?></h3>
 
-              <p>Designation</p>
+              <p><b>Designation</b></p>
             </div>
             <div class="icon">
-              <i class="fa fa-get-pocket"></i>
+              <i class="fa fa-spinner"></i>
             </div>
             <a href="<?php echo base_url(); ?>NewMaster/showDesignation" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
           </div>
@@ -90,10 +90,10 @@
                 }
               }
               ?></h3>
-              <p>Items</p>
+              <p><b>Items</b></p>
             </div>
             <div class="icon">
-              <i class="fa fa-cube"></i>
+              <i class="fa fa-sliders"></i>
             </div>
             <a href="<?php echo base_url(); ?>NewMaster/showMasterOpeningStock" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
           </div>
@@ -110,17 +110,17 @@
                 }
               }
               ?></h3>
-              <p>Mutual branch transfer request</p>
+              <p><b>Mutual branch transfer request</b></p>
             </div>
             <div class="icon">
-              <i class="fa fa-cube"></i>
+              <i class="fa fa-exchange"></i>
             </div>
             <a href="<?php echo base_url(); ?>newMaster/showB2bRequest" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
-          <div class="small-box bg-yellow">
+          <div class="small-box bg-red">
             <div class="inner">
               <h3><?php foreach ($productrequest as $req) {
                 if ($req->product_request == 0) {
@@ -131,10 +131,10 @@
               }
               ?></h3>
 
-              <p> Branch Stock Request Approval</p>
+              <p><b>Branch Stock Request Approval</b></p>
             </div>
             <div class="icon">
-              <i class="fa fa-cube"></i>
+              <i class="fa fa-thumbs-up"></i>
             </div>
             <a href="<?php echo base_url(); ?>NewMaster/showBranchItemRequestsPage" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
           </div>
@@ -153,10 +153,10 @@
               }
               ?>
             </h3>
-            <p>Branches</p>
+            <p><b>Branches</b></p>
           </div>
           <div class="icon">
-            <i class="fa fa-share-alt"></i>
+            <i class="fa fa-snowflake-o"></i>
           </div>
           <a href="<?php echo base_url(); ?>NewMaster/showBranchLists" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
         </div>
@@ -165,13 +165,13 @@
       <!-- ./col -->
       <div class="col-lg-3 col-xs-6">
         <!-- small box -->
-        <div class="small-box bg-yellow">
+        <div class="small-box bg-red">
           <div class="inner">
-            <h3><?php echo $total_stock; ?></h3>
-            <p>Stock</p>
+            <h3><?php if(!empty($total_stock)){echo $total_stock;} else{ echo 0; } ?></h3>
+            <p><b>Stock</b></p>
           </div>
           <div class="icon">
-            <i class="fa fa-share-alt"></i>
+            <i class="fa fa-database"></i>
           </div>
           <a href="<?php echo base_url(); ?>NewMaster/showMasterStock" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
         </div>
@@ -211,10 +211,10 @@
             }
             ?></h3>
 
-            <p>Categorys</p>
+            <p><b>Categorys</b></p>
           </div>
           <div class="icon">
-            <i class="ion ion-bag"></i>
+            <i class="fa fa-random"></i>
           </div>
           <a href="<?php echo base_url(); ?>NewMaster/showCategory" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
         </div>
@@ -232,10 +232,10 @@
               }
             }
             ?></h3>
-            <p>Total Employees</p>
+            <p><b>Total Employees</b></p>
           </div>
           <div class="icon">
-            <i class="fa fa-cube"></i>
+            <i class="fa fa-users"></i>
           </div>
           <a href="<?php echo base_url(); ?>NewMaster/ShowEmployeeList" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
         </div>
@@ -243,13 +243,13 @@
 
       <div class="col-lg-3 col-xs-6">
         <!-- small box -->
-        <div class="small-box bg-green">
+        <div class="small-box bg-yellow">
           <div class="inner">
             <h3><?php echo $branch_return_count; ?></h3>
-            <p>Branch Returns</p>
+            <p><b>Branch Returns</b></p>
           </div>
           <div class="icon">
-            <i class="fa fa-cube"></i>
+            <i class="fa fa-fast-backward"></i>
           </div>
           <a href="<?php echo base_url(); ?>newMaster/showBranchReturn" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
         </div>
@@ -257,7 +257,7 @@
 
       <div class="col-lg-3 col-xs-6">
         <!-- small box -->
-        <div class="small-box bg-green">
+        <div class="small-box bg-blue">
           <div class="inner">
             <h3><?php foreach ($vendors as $totalvendor) {
               if ($totalvendor->vendor == 0) {
@@ -267,10 +267,10 @@
               }
             }
             ?></h3>
-            <p>Vendors</p>
+            <p><b>Vendors</b></p>
           </div>
           <div class="icon">
-            <i class="fa fa-cube"></i>
+            <i class="fa fa-street-view"></i>
           </div>
           <a href="<?php echo base_url(); ?>NewMaster/showVendor" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
         </div>
@@ -290,10 +290,10 @@
             }
             ?>
             </h3>
-            <p>Reorder Notification Master</p>
+            <p><b>Reorder Notification Master</b></p>
           </div>
           <div class="icon">
-            <i class="fa fa-cube"></i>
+            <i class="fa fa-hourglass-half"></i>
           </div>
           <a href="<?php echo base_url(); ?>NewMaster/showMasterReorder" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
         </div>

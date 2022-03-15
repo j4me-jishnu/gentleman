@@ -13,7 +13,7 @@
   <!-- Main content -->
   <section class="content">
       <div class="row">
-      
+
         <div>
           <!-- ./col -->
           <div class="col-lg-3 col-xs-6">
@@ -323,4 +323,3 @@
 <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
-
